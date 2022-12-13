@@ -1,1 +1,1 @@
-"ficheiro que carrega os outros ficheiros de código, escreve e lê ficheiros, e trata da interação com o utilizador"
+"ficheiro que carrega os outros ficheiros de codigo, escreve e le ficheiros, e trata da interacao com o utilizador"

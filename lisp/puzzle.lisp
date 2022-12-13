@@ -1,1 +1,1 @@
-"Código relacionado com o problema."
+"Codigo relacionado com o problema."
