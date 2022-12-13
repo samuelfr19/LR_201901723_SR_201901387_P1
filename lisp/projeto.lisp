@@ -1,1 +1,5 @@
-"ficheiro que carrega os outros ficheiros de código, escreve e lê ficheiros, e trata da interação com o utilizador"
+"ficheiro que carrega os outros ficheiros de cï¿½digo, escreve e lï¿½ ficheiros, e trata da interaï¿½ï¿½o com o utilizador"
+
+(load "procura.lisp")
+(load "puzzle.lisp")
+

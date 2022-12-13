@@ -1,0 +1,1 @@
+"C:\Users\Samuel\Documents\clisp-2.49\clisp" -h
