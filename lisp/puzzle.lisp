@@ -30,10 +30,8 @@
 (defun replace(a list &optional (b 1))
 	"Função que recebe um índice, uma lista e valor x e deverá substituir o elemento nessa
 	posição pelo valor x, que deve ser definido com o valor de default a 1"
-    (cond 
-		((= (1- a) 0) (cons b (cdr list)))
-		(T (cons (car list) (replace (1- a) (cdr list) b)))
-	)
+    (setf (nth (- a 1) list) b)
+    list
 )
 
 (defun arc-on-position (a b list)
@@ -68,11 +66,11 @@
     A função deverá retornar NIL caso já exista um arco colocado nessa posição ou caso a posição indicada
     seja fora dos limites do tabuleiro"
     (if 
-        (and (<= x (length (get-vertical-arcs board)))
-            (<= y (length (car (get-vertical-arcs board)))))
-        (if (/= (get-arc-on-position x y (get-vertical-arcs board)) 1)
+        (and (<= y (length (get-vertical-arcs board)))
+             (<= x (length (car (get-vertical-arcs board)))))
+        (if (/= (get-arc-on-position y x (get-vertical-arcs board)) 1)
             (and
-                (arc-on-position x y (get-vertical-arcs board))
+                (arc-on-position y x (get-vertical-arcs board))
                 board
             ) 
         nil
