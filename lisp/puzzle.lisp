@@ -1,9 +1,14 @@
 "Codigo relacionado com o problema."
 
 
-(defun criar-tabuleiro (n m)
-
+(defun tabuleiro-teste ()
+  "Retorna um tabuleiro 3x3 (3 arcos na vertical por 3 arcos na horizontal)"
+	'(
+        ((0 1 0) (0 1 1) (0 1 1) (0 1 1))
+        ((0 0 0) (1 1 1) (1 1 1) (0 1 1))
+     )
 )
+
 
 
 (defun get-horizontal-arcs (board)
@@ -27,9 +32,10 @@
 	)
 )
 
-(defun replace(a list &optional (b 1))
-	"Função que recebe um índice, uma lista e valor x e deverá substituir o elemento nessa
-	posição pelo valor x, que deve ser definido com o valor de default a 1"
+
+(defun replace-elem(a list &optional (b 1))
+	"Função que recebe um índice, uma lista e valor b e deverá substituir o elemento nessa
+	posição pelo valor b, que deve ser definido com o valor de default a 1"
     (setf (nth (- a 1) list) b)
     list
 )
@@ -37,9 +43,23 @@
 (defun arc-on-position (a b list)
 	"Insere um arco (representado pelo valor 1) numa lista que representa o conjunto de
 	arcos horizontais ou verticais de um tabuleiro."
-	(replace b (nth (- a 1) list))
+	(replace-elem (nth (- a 1) list))
 	list
 )
+
+;;;(check-closed-box 0 0 (tabuleiro-teste))
+(defun check-closed-box (a b board)
+    (if (and
+        "A"(= (get-arc-on-position a b (get-horizontal-arcs board)) 1)
+        "B"(= (get-arc-on-position b a (get-vertical-arcs board)) 1)
+        "C"(= (get-arc-on-position (+ b 1) a (get-vertical-arcs board)) 1)
+        "D"(= (get-arc-on-position (+ a 1) b (get-horizontal-arcs board)) )1
+        )
+    1
+    0
+    )   
+)
+
 
 
 (defun horizontal-arc (x y board)
