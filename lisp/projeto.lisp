@@ -1,9 +1,9 @@
 "ficheiro que carrega os outros ficheiros de codigo, escreve e le ficheiros, e trata da interacao com o utilizador"
 
-(load "procura.lisp")
-(load "puzzle.lisp")
+(load "./lisp/procura.lisp")
+(load "./lisp/puzzle.lisp")
 
-(defun start-message()
+(defun startMessage()
 "Mostra as opções iniciais)"
   (progn
     (format t "~% ''''''''''''''''''''''''''''''")
