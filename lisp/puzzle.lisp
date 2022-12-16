@@ -47,7 +47,7 @@
 	list
 )
 
-;;;(check-closed-box 0 0 (tabuleiro-teste))
+;;;(check-closed-box 1 2 (tabuleiro-teste))
 (defun check-closed-box (a b board)
     (if (and
         "A"(= (get-arc-on-position a b (get-horizontal-arcs board)) 1)
