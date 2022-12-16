@@ -49,15 +49,12 @@
 
 ;;;(check-closed-box 1 2 (tabuleiro-teste))
 (defun check-closed-box (a b board)
-    (if (and
+    (and
         "A"(= (get-arc-on-position a b (get-horizontal-arcs board)) 1)
         "B"(= (get-arc-on-position b a (get-vertical-arcs board)) 1)
         "C"(= (get-arc-on-position (+ b 1) a (get-vertical-arcs board)) 1)
-        "D"(= (get-arc-on-position (+ a 1) b (get-horizontal-arcs board)) )1
-        )
-    1
-    0
-    )   
+        "D"(= (get-arc-on-position (+ a 1) b (get-horizontal-arcs board)) 1)
+    )
 )
 
 
