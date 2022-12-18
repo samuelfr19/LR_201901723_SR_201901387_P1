@@ -34,17 +34,17 @@
   (createNode (tabuleiroTeste) nil 0 0 4)
 )
 
-;; (newsucessor (noTeste) 'horizontalArc)
-(defun newSucessor (no fun)
- (if (funcall fun 3 1 (getStateNode no))
+;; (newsucessor (noTeste) 1 3 'horizontalArc)
+(defun newSucessor (no a b fun)
+(setq newList (getStateNode no))
+
     (list 
-      (funcall fun 3 1 (getStateNode no)) 
+      (funcall fun a b newList) 
       no (+ (getdepthnode no) 1) (getheuristicnode no) (getpieces no)
     )
-    nil
- )
 )
 
+;;(newsucessors (noTeste) 'horizontalArc)
 (defun newSucessors (no fun)
   (funcall fun 3 1 (getStateNode no)) 
 )
