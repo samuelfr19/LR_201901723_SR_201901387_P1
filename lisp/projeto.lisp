@@ -2,7 +2,7 @@
 
 (load "procura.lisp")
 (load "puzzle.lisp")
-(require "asdf")
+;(require "asdf")
 
 (defun startMessage()
 "Mostra as opções iniciais)"
@@ -51,7 +51,7 @@
     (lambda (line)
       (string-to-list line)
     )
-    (uiop:read-file-lines "../problemas.dat")
+    ;(uiop:read-file-lines "../problemas.dat")
   )
 )
 
