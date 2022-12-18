@@ -5,7 +5,7 @@
 ;(require "asdf")
 
 (defun startMessage()
-"Mostra as opções iniciais)"
+"Mostra as opções iniciais"
   (progn
     (format t "~%--------------------------------")
     (format t "~%|          Dots and            |")

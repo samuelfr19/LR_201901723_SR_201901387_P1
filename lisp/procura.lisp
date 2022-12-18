@@ -34,17 +34,31 @@
   (createNode (tabuleiroTeste) nil 0 0 4)
 )
 
-;; (newsucessor (noTeste) 1 3 'horizontalArc)
-(defun newSucessor (no a b fun)
-(setq newList (getStateNode no))
+(defun Changes()
+  (list 'horizontalArc 'verticalArc)
+)
 
-    (list 
+;; (newsucessor (noTeste) 1 3 'horizontalArc)
+(defun newSucessor (node a b fun)
+"Cria um novo sucessor do no atribuido"
+(setq newList (copy-list (getStateNode node)))
+  (createNode
       (funcall fun a b newList) 
-      no (+ (getdepthnode no) 1) (getheuristicnode no) (getpieces no)
+      node (+ (getdepthnode node) 1) (getheuristicnode node) (getpieces node)
     )
 )
 
-;;(newsucessors (noTeste) 'horizontalArc)
-(defun newSucessors (no fun)
-  (funcall fun 3 1 (getStateNode no)) 
+;; (sucessores (noTeste))
+(defun sucessores (board &optional (row 0) (col 0))
+ (cond
+    ((>= col (length (gethorizontalarcs board))) (sucessores board (1+ row)))
+    ((>= row (length (getVerticalarcs board))))  
+    (T
+      (progn
+        (mapcar #'(lambda (operador) (newSucessor board row col operador)) operadores)
+        (sucessores board row (1+ col))
+         
+      )
+    )
+  )
 )

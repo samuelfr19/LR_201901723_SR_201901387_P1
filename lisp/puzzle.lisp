@@ -4,8 +4,10 @@
 (defun tabuleiroTeste ()
   "Retorna um tabuleiro 3x3 (3 arcos na vertical por 3 arcos na horizontal) do lab 7"
   '(
-    ((0 0 0) (0 0 1) (0 1 1) (0 1 1))
-    ((0 0 0) (0 1 1) (1 1 1) (0 1 1))
+    ;((0 0 0) (0 0 1) (0 1 1) (0 1 1))
+    ;((0 0 0) (0 1 1) (1 1 1) (0 1 1))
+    ((00))
+    ((01))
   )
 )
 
@@ -45,8 +47,10 @@
 (defun replaceElem(a list &optional (b 1))
 	"Função que recebe um índice, uma lista e valor b e deverá substituir o elemento nessa
 	posição pelo valor b, que deve ser definido com o valor de default a 1"
-    (setf (nth (- a 1) list) b)
-    ;;(replace-nth list (- a 1) b) 
+    (cond
+        ((= (- a 1) 0) (cons b (cdr list)))
+        (T (cons (car list) (replaceElem (- a 1) (cdr list) b)))
+    )
 )
 
 ;; (arcOnPosition 1 3 (gethorizontalarcs (tabuleiroteste)))
@@ -54,13 +58,15 @@
 (defun arcOnPosition (a b list)
 	"Insere um arco (representado pelo valor 1) numa lista que representa o conjunto de
 	arcos horizontais ou verticais de um tabuleiro."
-	(replaceElem b (nth (- a 1) list))
-	list
+	(cond
+    ((- a 1) (cons (replaceElem b (nth (- a 1) list)) (cdr list)))
+    (T (cons (car list) (arconposition (- a 1) b (cdr list))))
+  )
 )
 
 ;;; (checkClosedBox 3 3 (tabuleiroTeste))
 (defun checkClosedBox (a b board)
-  (if (or (or (< a 1) (< b 1))(>= a (countColsRows (gethorizontalarcs (tabuleiroteste)))))
+  (if (or (or (< a 1) (< b 1))(>= a (length (gethorizontalarcs (tabuleiroteste)))))
     NIL
     (and
           "A"(= (getArcOnPosition a b (getHorizontalArcs board)) 1)
@@ -73,30 +79,12 @@
 
 
 
-
-;;(countColsRows (gethorizontalarcs (tabuleiroteste)))
-;;(countColsRows (getVerticalarcs (tabuleiroTeste)))
-(defun countColsRows (list &optional (a 0))
-  "Conta o numero de colunas ou linhas no tabuleiro dependendo da lista passada como parametros"
-  (if (listp list)
-      (if (> a 0)
-        (+ (loop for elem in list
-          sum (countColsRows elem (+ a 1))) 1)
-        (loop for elem in list
-          sum (countColsRows elem (+ a 1)))
-      )
-      0
-      
-   )
-   
-)
-
 ;;(countClosedBoxes (tabuleiroTeste))
 (defun countClosedBoxes (board &optional (row 1) (col 1))
   "Devolve o numero de caixas fdechadas no tabuleiro inteiro"
   (cond
-    ((>= col (countColsRows (gethorizontalarcs board))) (countClosedBoxes board (1+ row)))
-    ((>= row (countColsRows (getVerticalarcs board))) 0)  
+    ((>= col (length (gethorizontalarcs board))) (countClosedBoxes board (1+ row)))
+    ((>= row (length (getVerticalarcs board))) 0)  
     (T
       (+
         (if (checkclosedbox row col board) 1 0)
@@ -119,10 +107,8 @@
     )
    
     (if (/= (getArcOnPosition x y (getHorizontalArcs board)) 1)
-      (and
-        (arcOnPosition x y (getHorizontalArcs board)) 
-        board
-      )
+        (list (arcOnPosition x y (getHorizontalArcs board)) 
+          (getverticalarcs board))
     nil
     )
     nil
@@ -141,10 +127,8 @@
     )
     
     (if (/= (getArcOnPosition y x (getVerticalArcs board)) 1)
-      (and
-        (arcOnPosition y x (getVerticalArcs board))
-        board
-      ) 
+        (list (gethorizontalarcs board)
+          (arcOnPosition y x (getVerticalArcs board)))
     nil
     )
     nil
