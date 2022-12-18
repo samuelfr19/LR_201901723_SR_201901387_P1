@@ -49,16 +49,16 @@
 )
 
 ;; (sucessores (noTeste))
-(defun sucessores (board &optional (row 0) (col 0))
+(defun sucessores (board &optional (row 1) (col 1))
  (cond
     ((>= col (length (gethorizontalarcs board))) (sucessores board (1+ row)))
     ((>= row (length (getVerticalarcs board))))  
     (T
-      (progn
-        (mapcar #'(lambda (operador) (newSucessor board row col operador)) operadores)
-        (sucessores board row (1+ col))
-         
+      (list
+        (newSucessor board row col 'horizontalArcs)
+        (newSucessor board row col 'verticalArcs)
       )
+      (sucessores board row (1+ col))
     )
   )
 )
