@@ -6,10 +6,15 @@
   '(
     ; ((0 0 0) (0 0 1) (0 1 1) (0 1 1))
     ; ((0 0 0) (0 1 1) (1 1 1) (0 1 1))
-    ; ((0 0))
-    ; ((0 1))
     ((0 0 0) (0 0 1) (0 1 1) (0 0 1))
     ((0 0 0) (0 1 1) (1 0 1) (0 1 1))
+  )
+)
+
+(defun tabuleiroTesteSimples()
+  '(
+    ((0) (0))
+    ((0) (1))
   )
 )
 
@@ -36,12 +41,12 @@
 
 
 ;; (getArcOnPosition 1 3 (getHorizontalArcs (tabuleiroTeste)))
-(defun getArcOnPosition (a b list)
+(defun getArcOnPosition (a b board)
 	"Função que retorna o arco que se encontra numa posicao da lista de arcos
 	horizontais ou verticais"
 	(if (or (= a 0) (= b 0))
     NIL	
-    (nth (- b 1) (nth (- a 1) list))
+    (nth (- b 1) (nth (- a 1) board))
 	)
 )
 

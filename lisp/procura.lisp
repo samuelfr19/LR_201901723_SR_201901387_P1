@@ -5,12 +5,12 @@
 4. Os algoritmos SMA*, IDA* e/ou RBFS (caso optem por implementar o bonus)"
 
 
-(defun createNode (board parent &optional (d 0) (h 0) pieces)
+(defun createNode (board parent &optional (d 0) (h 0) boxes)
  "Cria um nó para a resolução e utilização nos algoritmos de pesquisa"
-  (list board parent d h pieces)
+  (list board parent d h boxes)
 )
 
-(defun getStateNode (node)
+(defun getBoard (node)
   (car node)
 )
 
@@ -26,22 +26,22 @@
   (nth 3 node)
 )
 
-(defun getPieces (node)
+(defun getBoxes (node)
   (nth 4 node)
 )
 
 (defun noTeste ()
-  (createNode (tabuleiroTeste) nil 0 0 4)
+  (createNode (tabuleiroTesteSimples) nil 0 0 1)
 )
 
-;; (newsucessor (noTeste) 1 3 'horizontalArc)
-(defun newSucessor (node a b fun)
+;; (newsucessor (noTeste) 'horizontalArc 1 1)
+(defun newSucessor (node fun x y)
 "Cria um novo sucessor do no atribuido"
-(setq newList (copy-list (getStateNode node)))
+(setq newList (copy-list (getBoard node)))
   (createNode
-      (funcall fun a b newList) 
-      node (+ (getdepthnode node) 1) (getheuristicnode node) (getpieces node)
-    )
+    (funcall fun x y newList) 
+    node (+ (getdepthnode node) 1) (getheuristicnode node) (getBoxes node)
+  )
 )
 
 ;; (sucessores (noTeste))
@@ -55,6 +55,21 @@
         (newSucessor board row col 'verticalArcs)
       )
       (sucessores board row (1+ col))
+    ) 
+  )
+)
+
+(defun generateSuccessors (node &optional (x 1) (y 1))
+  (if 
+    (and
+      (or 
+        (< (length (getHorizontalArcs (getboard node))) x)
+        (< (length (getVerticalArcs (getboard node))) y)
+      )
+      (and (> 0 x) (> 0 y))
+    )
+    (if (= (getArcOnPosition x y ()) 0)
+
     )
   )
 )

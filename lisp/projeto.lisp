@@ -60,7 +60,7 @@
 )
 
 (defun getProblema (n &optional (probs (getProblemas)))
-  "Procurar recursivamente na lista de problemas o que estamos a procurar (todos em letra minuscula e nao passar lista) (P.E. '(getproblema \"a\")"
+  "Procurar recursivamente na lista de problemas o que estamos a procurar (todos em letra minuscula e nao passar lista) (P.E. '(getproblema \"a\")'"
   (if (car probs)
     (if (equal (first (car probs)) n)
       (car probs)
@@ -69,4 +69,7 @@
   )
 )
 
-
+(defun print-board(board &optional (stream t))
+  "Mostra um tabuleiro bem formatado"
+  (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
+)
