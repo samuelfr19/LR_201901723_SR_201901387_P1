@@ -2,7 +2,7 @@
 
 (load "procura.lisp")
 (load "puzzle.lisp")
-;(require "asdf")
+
 
 (defun startMessage()
 "Mostra as opções iniciais"
@@ -47,31 +47,26 @@
 ;----------------------------------------------------------------------------- LOADING FROM FILES
 
 (defun getProblemas ()
-  (mapcar #'
-    (lambda (line)
-      (string-to-list line)
+  "Metodo para ir buscar os problemas a partir do ficheiro 'problemas.dat'"
+  (with-open-file (stream "../problemas.dat" :if-does-not-exist :error)
+    (do 
+      (
+        (result nil (cons next result))
+        (next (read stream nil 'eof) (read stream nil 'eof))
+      )
+      ((equal next 'eof) (reverse result))
     )
-    ;(uiop:read-file-lines "../problemas.dat")
   )
 )
 
-(defun printProblemas ()
-  (mapcar #'
-    (lambda (s) 
-      (format t s) (format t "~%")
+(defun getProblema (n &optional (probs (getProblemas)))
+  "Procurar recursivamente na lista de problemas o que estamos a procurar (todos em letra minuscula e nao passar lista) (P.E. '(getproblema \"a\")"
+  (if (car probs)
+    (if (equal (first (car probs)) n)
+      (car probs)
+      (getProblema n (cdr probs))
     )
-    (getProblemas)
   )
-  nil
 )
 
-(defun string-to-list (str)
-  (if (not (streamp str))
-    (string-to-list (make-string-input-stream str))
-    
-    (if (listen str)
-      (cons (read str) (string-to-list str))
-      nil
-    )
-  )
-)
+

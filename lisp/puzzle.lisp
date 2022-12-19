@@ -4,10 +4,12 @@
 (defun tabuleiroTeste ()
   "Retorna um tabuleiro 3x3 (3 arcos na vertical por 3 arcos na horizontal) do lab 7"
   '(
-    ;((0 0 0) (0 0 1) (0 1 1) (0 1 1))
-    ;((0 0 0) (0 1 1) (1 1 1) (0 1 1))
-    ((00))
-    ((01))
+    ; ((0 0 0) (0 0 1) (0 1 1) (0 1 1))
+    ; ((0 0 0) (0 1 1) (1 1 1) (0 1 1))
+    ; ((0 0))
+    ; ((0 1))
+    ((0 0 0) (0 0 1) (0 1 1) (0 0 1))
+    ((0 0 0) (0 1 1) (1 0 1) (0 1 1))
   )
 )
 
@@ -94,6 +96,7 @@
     )
   )
 )
+
 
 ;;  (horizontalArc 1 3 (tabuleiroTeste))
 (defun horizontalArc (x y board)

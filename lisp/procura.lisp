@@ -34,10 +34,6 @@
   (createNode (tabuleiroTeste) nil 0 0 4)
 )
 
-(defun Changes()
-  (list 'horizontalArc 'verticalArc)
-)
-
 ;; (newsucessor (noTeste) 1 3 'horizontalArc)
 (defun newSucessor (node a b fun)
 "Cria um novo sucessor do no atribuido"
