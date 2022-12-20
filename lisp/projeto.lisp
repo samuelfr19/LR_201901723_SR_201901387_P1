@@ -46,6 +46,7 @@
 
 ;----------------------------------------------------------------------------- LOADING FROM FILES
 
+;; (getProblemas)
 (defun getProblemas ()
   "Metodo para ir buscar os problemas a partir do ficheiro 'problemas.dat'"
   (with-open-file (stream "../problemas.dat" :if-does-not-exist :error)
@@ -59,17 +60,30 @@
   )
 )
 
+;; (getProblema "e")
 (defun getProblema (n &optional (probs (getProblemas)))
   "Procurar recursivamente na lista de problemas o que estamos a procurar (todos em letra minuscula e nao passar lista) (P.E. '(getproblema \"a\")'"
   (if (car probs)
     (if (equal (first (car probs)) n)
-      (car probs)
+        (print-board (nth 2 (car probs)))
       (getProblema n (cdr probs))
     )
   )
 )
 
+;; (print-board (nth 2 (getProblema "b")))
+;; (print-board (tabuleiroTeste)))
 (defun print-board(board &optional (stream t))
   "Mostra um tabuleiro bem formatado"
   (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
 )
+
+;; (printProblems)
+(defun printProblems ()
+  (mapcar #'(lambda (problema &aux (board problema))  (progn (format T "~%~%Tabuleiro ~d:~%" (car board))
+                                                             (print-board (caddr board)))) 
+                                                             (getProblemas))
+  T
+)
+
+ 
