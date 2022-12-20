@@ -41,45 +41,46 @@
 
 
 ;; (getArcOnPosition 1 3 (getHorizontalArcs (tabuleiroTeste)))
-(defun getArcOnPosition (a b board)
+(defun getArcOnPosition (x y board)
 	"Função que retorna o arco que se encontra numa posicao da lista de arcos
 	horizontais ou verticais"
-	(if (or (= a 0) (= b 0))
-    NIL	
-    (nth (- b 1) (nth (- a 1) board))
-	)
+	(if (and (/= x 0) (/= y 0))
+    (nth (- y 1) (nth (- x 1) board))
+  )
 )
 
 ;; (replaceElem 1 (car (gethorizontalarcs(tabuleiroteste))))
-(defun replaceElem(a list &optional (b 1))
-	"Função que recebe um índice, uma lista e valor b e deverá substituir o elemento nessa
-	posição pelo valor b, que deve ser definido com o valor de default a 1"
+(defun replaceElem(list x &optional (y 1))
+	"Função que recebe um índice, uma lista e valor y e deverá substituir o elemento nessa
+	posição pelo valor y, que deve ser definido com o valor de default a 1"
     (cond
-        ((= (- a 1) 0) (cons b (cdr list)))
-        (T (cons (car list) (replaceElem (- a 1) (cdr list) b)))
+        ((= (- x 1) 0) (cons y (cdr list)))
+        (T (cons (car list) (replaceElem (cdr list) (- x 1) y)))
     )
 )
 
 ;; (arcOnPosition 1 3 (gethorizontalarcs (tabuleiroteste)))
 ;; (arcOnPosition 4 1 (getverticalarcs (tabuleiroteste)))
-(defun arcOnPosition (a b list)
+(defun arcOnPosition (x y list)
 	"Insere um arco (representado pelo valor 1) numa lista que representa o conjunto de
 	arcos horizontais ou verticais de um tabuleiro."
 	(cond
-    ((- a 1) (cons (replaceElem b (nth (- a 1) list)) (cdr list)))
-    (T (cons (car list) (arconposition (- a 1) b (cdr list))))
+    ((= x 1) 
+      (cons (replaceElem (nth (- x 1) list) y ) (cdr list))
+    )
+    (T (cons (car list) (arconposition (- x 1) y (cdr list))))
   )
 )
 
 ;;; (checkClosedBox 3 3 (tabuleiroTeste))
-(defun checkClosedBox (a b board)
-  (if (or (or (< a 1) (< b 1))(>= a (length (gethorizontalarcs (tabuleiroteste)))))
+(defun checkClosedBox (x y board)
+  (if (or (or (< x 1) (< y 1))(>= x (length (gethorizontalarcs (tabuleiroteste)))))
     NIL
     (and
-          "A"(= (getArcOnPosition a b (getHorizontalArcs board)) 1)
-          "B"(= (getArcOnPosition b a (getVerticalArcs board)) 1)
-          "C"(= (getArcOnPosition (+ b 1) a (getVerticalArcs board)) 1)
-          "D"(= (getArcOnPosition (+ a 1) b (getHorizontalArcs board)) 1)
+          "A"(= (getArcOnPosition x y (getHorizontalArcs board)) 1)
+          "B"(= (getArcOnPosition y x (getVerticalArcs board)) 1)
+          "C"(= (getArcOnPosition (+ y 1) x (getVerticalArcs board)) 1)
+          "D"(= (getArcOnPosition (+ x 1) y (getHorizontalArcs board)) 1)
     )
   )
 )
@@ -113,13 +114,11 @@
       (<= x (length (getHorizontalArcs board)))
       (<= y (length (car (getHorizontalArcs board))))
     )
-   
     (if (/= (getArcOnPosition x y (getHorizontalArcs board)) 1)
         (list (arcOnPosition x y (getHorizontalArcs board)) 
           (getverticalarcs board))
-    nil
+    0
     )
-    nil
   )
 )
  
@@ -131,14 +130,13 @@
   (if 
     (and 
       (<= y (length (getVerticalArcs board)))
-      (<= x (length (car (getVerticalArcs board))))
+      (<= x (1+ (length (car (getVerticalArcs board)))))
     )
     
     (if (/= (getArcOnPosition y x (getVerticalArcs board)) 1)
         (list (gethorizontalarcs board)
           (arcOnPosition y x (getVerticalArcs board)))
-    nil
+    0
     )
-    nil
   )
 )
