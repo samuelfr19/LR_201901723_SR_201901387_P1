@@ -125,6 +125,7 @@
   )
 )
 
+
 (defun bfs(opened &optional (closed '()))
   (if (/= (length opened) 0)
     (let* 
@@ -140,6 +141,7 @@
   )
 )
 
+;;(dfs (list(noTeste)) 100)
 (defun dfs(opened maxDepth &optional (closed '()))
   (cond
     ((not (car opened)) (print (car opened)))
