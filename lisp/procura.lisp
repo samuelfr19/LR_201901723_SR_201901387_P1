@@ -10,23 +10,23 @@
   (list board parent boxes d h)
 )
 
-(defun getBoard (node)
+(defun nodeGetBoard (node)
   (car node)
 )
 
-(defun getParentNode (node)
+(defun nodeGetParent (node)
   (nth 1 node)
 )
 
-(defun getBoxes (node)
+(defun nodeGetBoxes (node)
   (nth 2 node)
 )
 
-(defun getDepthNode (node)
+(defun nodeGetDepth (node)
   (nth 3 node)
 )
 
-(defun getHeuristicNode (node)
+(defun nodeGetHeuristic (node)
   (nth 4 node)
 )
 
@@ -34,32 +34,8 @@
   (createNode (tabuleiroTesteSimples) nil 1)
 )
 
-;; (newsucessor (noTeste) 'horizontalArc 1 1)
-(defun newSucessor (node fun x y)
-"Cria um novo sucessor do no atribuido"
-(setq newList (copy-list (getBoard node)))
-  (createNode
-    (funcall fun x y newList) 
-    node (+ (getdepthnode node) 1) (getheuristicnode node) (getBoxes node)
-  )
-)
-
-;; (sucessores (noTeste))
-(defun sucessores (board &optional (row 1) (col 1))
-  (cond
-    ((>= col (length (gethorizontalarcs board))) (sucessores board (1+ row)))
-    ((>= row (length (getVerticalarcs board))))  
-    (T
-      (list
-        (newSucessor board row col 'horizontalArcs)
-        (newSucessor board row col 'verticalArcs)
-      )
-      (sucessores board row (1+ col))
-    ) 
-  )
-)
-
 (defun generateSuccessorList (node)
+"Gera uma lista de sucessores de um no pai"
   (append
     (generatesuccessorshorizontal node)
     (generatesuccessorsvertical node)
@@ -67,20 +43,21 @@
 )
 
 (defun generateSuccessorsHorizontal (node &optional (x 1) (y 1) (solucao))
+"Gera os sucessores com alteracoes horizontais de um no pai"
   (cond 
-    ( (> y (length (car (getHorizontalArcs(getBoard node))))) 
+    ( (> y (length (car (getHorizontalArcs(nodeGetBoard node))))) 
       (generateSuccessorsHorizontal node (1+ x))
     )
-    ( (> x (length (getHorizontalArcs(getBoard node))))  '())
-    ( (not (listp (horizontalArc x y(getBoard node))))  (generateSuccessorsHorizontal node x (1+ y)))
+    ( (> x (length (getHorizontalArcs(nodeGetBoard node))))  '())
+    ( (not (listp (horizontalArc x y(nodeGetBoard node))))  (generateSuccessorsHorizontal node x (1+ y)))
 
     (T
       (cons 
         (createnode 
-          (horizontalArc x y (getBoard node)) 
+          (horizontalArc x y (nodeGetBoard node)) 
           node 
-          (getboxes node) 
-          (1+ (getdepthnode node))
+          (nodegetboxes node) 
+          (1+ (nodeGetDepth node))
         ) 
         
         (generateSuccessorsHorizontal node x (1+ y))
@@ -90,20 +67,21 @@
 )
 
 (defun generateSuccessorsVertical (node &optional (x 1) (y 1) (solucao))
+"Gera os sucessores com alteracoes verticais de um no pai"
   (cond 
-    ( (> y (length (car (getVerticalArcs(getBoard node))))) 
+    ( (> y (length (car (getVerticalArcs(nodeGetBoard node))))) 
       (generateSuccessorsVertical node (1+ x))
     )
-    ( (> x (length (getVerticalArcs(getBoard node))))  '())
-    ( (not (listp (VerticalArc y x (getBoard node))))  (generateSuccessorsVertical node x (1+ y)))
+    ( (> x (length (getVerticalArcs(nodeGetBoard node))))  '())
+    ( (not (listp (VerticalArc y x (nodeGetBoard node))))  (generateSuccessorsVertical node x (1+ y)))
 
     (T
       (cons 
         (createnode 
-          (VerticalArc x y (getBoard node)) 
+          (VerticalArc x y (nodeGetBoard node)) 
           node 
-          (getboxes node) 
-          (1+ (getdepthnode node))
+          (nodegetboxes node) 
+          (1+ (nodeGetDepth node))
         ) 
         
         (generateSuccessorsVertical node x (1+ y))
@@ -112,4 +90,74 @@
   )
 )
 
+(defun pathToRoot (node)
+  (if(nodegetparent node) 
+    (append (pathtoRoot (nodegetparent node)) (list (nodegetboard node)))
+    (list (nodegetboard node))
+  )
+)
+
+(defun nodeRemoveDuplicates(lista opened closed)
+  (removeDuplicates (removeDuplicates lista opened) closed)
+)
+
+(defun removeDuplicates (list1 list2)
+  (if (or list1 list2)
+    list1
+    (mapcar 
+      #'(lambda(x) 
+        (if(member x list2) 
+          nil 
+          x
+        )
+      ) 
+      list1
+    )
+  )
+)
+
+(defun removeNil (lista)
+  (if (car lista)
+    (cons (car lista) (removenil (cdr lista)))
+    (if (cdr lista)
+      (removenil (cdr lista))
+    )
+  )
+)
+
+(defun bfs(opened &optional (closed '()))
+  (if (/= (length opened) 0)
+    (let* 
+      (
+        (chosenNode (car opened))
+        (expanded (generatesuccessorlist chosenNode))
+      )
+      (if (= (length expanded) 0)
+        (list (pathtoroot chosennode) (length opened) (length closed))
+        (bfs (append (cdr opened) (nodeRemoveDuplicates expanded opened closed) ) (append closed (list chosennode)))
+      )
+    )
+  )
+)
+
+(defun dfs(opened maxDepth &optional (closed '()))
+  (cond
+    ((not (car opened)) (print (car opened)))
+    ((> (nodegetdepth (car opened)) maxDepth)
+      (dfs (cdr opened) maxDepth (append closed (car opened)))
+    )
+    (T
+      (let*
+        (
+          (chosenNode (car opened))
+          (children (generatesuccessorlist chosennode))
+        )
+        (if (car children)
+          (dfs (append children (cdr opened)) maxdepth (append closed chosennode))
+          (list (pathtoroot chosennode) (length opened) (length closed))
+        )
+      )
+    )
+  )
+)
 
