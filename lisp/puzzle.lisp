@@ -4,10 +4,10 @@
 (defun tabuleiroTeste ()
   "Retorna um tabuleiro 3x3 (3 arcos na vertical por 3 arcos na horizontal) do lab 7"
   '(
-    ; ((0 0 0) (0 0 1) (0 1 1) (0 1 1))
-    ; ((0 0 0) (0 1 1) (1 1 1) (0 1 1))
-    ((0 0 0) (0 0 1) (0 1 1) (0 0 1))
-    ((0 0 0) (0 1 1) (1 0 1) (0 1 1))
+     ((0 0 0) (0 0 1) (0 1 1) (0 1 1))
+     ((0 0 0) (0 1 1) (1 1 1) (0 1 1))
+    ;((0 0 0) (0 0 1) (0 1 1) (0 0 1))
+    ;((0 0 0) (0 1 1) (1 0 1) (0 1 1))
   )
 )
 
@@ -72,9 +72,9 @@
   )
 )
 
-;;; (checkClosedBox 3 3 (tabuleiroTeste))
+;;; (checkClosedBox 70 20 (tabuleiroTeste))
 (defun checkClosedBox (x y board)
-  (if (or (or (< x 1) (< y 1))(>= x (length (gethorizontalarcs (tabuleiroteste)))))
+  (if (or (or (< x 1) (< y 1))(>= x (length (gethorizontalarcs board))))
     NIL
     (and
           "A"(= (getArcOnPosition x y (getHorizontalArcs board)) 1)
