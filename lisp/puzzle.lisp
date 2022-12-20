@@ -18,14 +18,7 @@
   )
 )
 
-(defun replace-nth (list n elem)
-  (cond 
-    ((null list) ())
-    ((= n 0) (cons elem (cdr list)))
-    (t (cons (car list) (replace-nth (cdr list) (1- n) elem)))
-  )
-  
-)
+
 
 ;; (getHorizontalArcs (tabuleiroTeste))
 (defun getHorizontalArcs (board)

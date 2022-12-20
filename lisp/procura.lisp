@@ -163,6 +163,10 @@
   )
 )
 
+(defun baseHeuristic (node)
+  (- (nodegetboxes) (countClosedBoxes (nodegetboard node)))
+)
+
 ;;(penetrance '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
 (defun penetrance (solution)
  "Funcao para calcular e definir a penetrancia da solucao final"

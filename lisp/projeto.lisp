@@ -106,15 +106,17 @@
                            (board (third board)))
                         (ecase opt
                           (1    
-                              (let ((maxDepth (chooseDepth)))
-                                 (dfs (list (createNode board NIL boxes)) maxDepth)
+                              (let* ((maxDepth (chooseDepth))
+                                 (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
+                                 (getTime) 'BFS)))  
                               )
                           )
-
                           (2  
-                              (bfs (list (createNode board NIL boxes)))
+                            (let
+                                 (solution (list (getTime) (bfs (list (createNode board NIL boxes)))
+                                 (getTime) 'DFS)) 
+                            )
                           )
-     
                           (3  
                               ;@TODO
                           )
@@ -195,6 +197,7 @@
     )
   )
 )
+
 
 (defun getTime()
   "Retorna o tempo atual em forma de lista"
