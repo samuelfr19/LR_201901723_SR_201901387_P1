@@ -125,7 +125,7 @@
   )
 )
 
-
+;;(bfs (list(noTeste)))
 (defun bfs(opened &optional (closed '()))
   (if (/= (length opened) 0)
     (let* 
@@ -161,5 +161,11 @@
       )
     )
   )
+)
+
+;;(penetrance '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
+(defun penetrance (solution)
+ "Funcao para calcular e definir a penetrancia da solucao final"
+    (coerce (/ (length (car solution)) (+ (second solution)(third solution))) 'float)
 )
 

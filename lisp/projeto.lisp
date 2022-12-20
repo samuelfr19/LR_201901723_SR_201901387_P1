@@ -196,4 +196,10 @@
   )
 )
 
+(defun getTime()
+  "Retorna o tempo atual em forma de lista"
+  (multiple-value-bind (s m h) (get-decoded-time)
+    (list h m s)
+   )
+)
  
