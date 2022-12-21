@@ -30,9 +30,16 @@
   (nth 4 node)
 )
 
+
+; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
 (defun getSolutionNode (node)
-  (last (car solutionNode))
+  (car (last (car node)))
 )
+
+(defun getSolutionLenght (node)
+ (length (car node))
+)
+
 
 (defun noTeste ()
   (createNode (tabuleiroTesteSimples) nil 1)
@@ -175,9 +182,14 @@
   (- (nodegetboxes) (countClosedBoxes (nodegetboard node)))
 )
 
-;;(penetrance '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
+;
 (defun penetrance (solution)
  "Funcao para calcular e definir a penetrancia da solucao final"
-    (coerce (/ (length (car solution)) (+ (second solution)(third solution))) 'float)
+    (coerce (/ (getsolutionlenght solution) (+ (second solution)(third solution))) 'float)
+)
+
+(defun branchingFator (solution)
+
+
 )
 

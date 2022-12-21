@@ -149,19 +149,19 @@
 )
 
 
- 
-;; <solution>::= (<start-time> <solution-path> <end-time> <numero-board> <algorithm> <depth>)
+; (writeFinalResultsFile '((11 45 00) (((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10) (11 54 00) BFS))
+;; <solution>::= (<startTime> <solutionNode> <endTime> <algorithm> <depth>)
 (defun writeFinalResultsFile (solution)
 "Escreve, no ficheiro de resultados, a solucao e medidas de desempenho de um determinado problema"
   (let* ((startTime (first solution))
          (solutionNode (second solution))
          (endTime (third solution))
-         (search (fourth solution)))
-            (with-open-file (file (getResultsPath) :direction :output :if-exists :append :if-does-not-exist :create)
-              (if (last solution)
-                (writeFinalResults file solutionNode startTime endTime search (last solution))   
-                (writeFinalResults file solutionNode startTime endTime search)   
-              )
+         (search (fourth solution))) 
+            (with-open-file (str "../lisp/resultados.dat" :direction :output :if-exists :append :if-does-not-exist :create)
+             
+                 (writeFinalResults str solutionNode startTime endTime search (last solution)) 
+                
+            
             )
   )
 )
@@ -173,6 +173,12 @@
   "Mostra um tabuleiro bem formatado"
   (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
   (format t "~%~%-------------------------------------------------------------------------------------------------------------------------------------------~%")
+)
+
+(defun printFinalBoard(board &optional (stream t))
+  "Mostra um tabuleiro bem formatado"
+  (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
+  (format t "~%")
 )
 
 ;; (printProblems)
@@ -190,21 +196,38 @@
 (defun writeFinalResults (stream solutionNode startTime endTime search &optional depth)
 "Escreve a solucao e medidas de desempenho para os algoritmos bfs e dfs"
   (progn 
-    (format stream "~%* Resolucao do Tabuleiro ~a *" (getSolutionNode solutionNode))
-    (format stream "~%~t> Algoritmo: ~a " search)
-    (format stream "~%~t> Inicio: ~a:~a:~a" (first startTime) (second startTime) (third startTime))
-    (format stream "~%~t> Fim: ~a:~a:~a" (first endTime) (second endTime) (third endTime))
-    (format stream "~%~t> Numero de nos gerados: ~a" (+ (second solutionNode)(third solutionNode)))
-    (format stream "~%~t> Numero de nos expandidos: ~a" (second solutionNode))
-    (format stream "~%~t> Penetrencia: ~F" (penetrance solutionNode))
+    ;;(format stream "~%* Resolucao do Tabuleiro ~a *" (getSolutionNode solutionNode))
+    (format stream "~%~t Algoritmo: ~a " search)
+    (format stream "~%~t Inicio: ~a:~a:~a" (first startTime) (second startTime) (third startTime))
+    (format stream "~%~t Fim: ~a:~a:~a" (first endTime) (second endTime) (third endTime))
+    (format stream "~%~t Numero de nos gerados: ~a" (+ (second solutionNode)(third solutionNode)))
+    (format stream "~%~t Numero de nos expandidos: ~a" (second solutionNode))
+    (format stream "~%~t Penetrencia: ~F" (penetrance solutionNode))
+    ;(format stream "~%~t Fator de ramificacao media ~F" (branchingFactor solutionNode))
+    (if (eq search 'DFS)
+        (format stream "~%~t Profundidade maxima: ~a" (car depth)))
+    (format stream "~%~t Comprimento da solucao: ~a" (length (car solutionNode)))
+    (format stream "~%~t Estado Inicial")
+    (printFinalBoard (first (first solutionNode)) stream)
+    (format stream "~%~t Estado Final")
+    (printFinalBoard (getSolutionNode solutionNode) stream)
+    (format stream "~%~%~%")
+
+    (format t "~%~t Algoritmo: ~a " search)
+    (format T "~%~t Inicio: ~a:~a:~a" (first startTime) (second startTime) (third startTime))
+    (format t "~%~t Fim: ~a:~a:~a" (first endTime) (second endTime) (third endTime))
+    (format t "~%~t Numero de nos gerados: ~a" (+ (second solutionNode)(third solutionNode)))
+    (format t "~%~t Numero de nos expandidos: ~a" (second solutionNode))
+    (format t "~%~t Penetrencia: ~F" (penetrance solutionNode))
     ;;(format stream "~%~t> Fator de ramificacao media ~F" (branching-factor solutionNode))
     (if (eq search 'DFS)
-        (format stream "~%~t> Profundidade maxima: ~a" depth))
-    (format stream "~%~t> Comprimento da solucao ~a" (length (car solutionNode)))
-    (format stream "~%~t> Estado Inicial")
-    (printBoard (first (first solutionNode)) stream)
-    (format stream "~%~t> Estado Final")
-    (printBoard (getSolutionNode solutionNode) stream)
+        (format t "~%~t Profundidade maxima: ~a" (car depth)))
+    (format t "~%~t Comprimento da solucao: ~a" (length (car solutionNode)))
+    (format t "~%~%~t Estado Inicial~%")
+    (printFinalBoard (first (first solutionNode)))
+    (format t "~%~t Estado Final~%")
+    (printFinalBoard (getSolutionNode solutionNode))
+    (format t "~%~%")
   )
 )
 
@@ -233,12 +256,6 @@
       (getProblem n (cdr probs))
     )
   )
-)
-
-;;(getResultsPath)
-(defun getResultsPath()
-"Devolve o path para o ficheiro (C:\lisp\resultados.dat)"
-    (make-pathname :host "..." :directory '(:absolute "lisp") :name "resultados" :type "dat")
 )
 
 
