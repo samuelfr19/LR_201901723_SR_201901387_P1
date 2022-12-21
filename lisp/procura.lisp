@@ -30,9 +30,14 @@
   (nth 4 node)
 )
 
+(defun getSolutionNode (node)
+  (last (car solutionNode))
+)
+
 (defun noTeste ()
   (createNode (tabuleiroTesteSimples) nil 1)
 )
+
 
 (defun generateSuccessorList (node)
 "Gera uma lista de sucessores de um no pai"
@@ -162,6 +167,9 @@
     )
   )
 )
+
+
+
 
 (defun baseHeuristic (node)
   (- (nodegetboxes) (countClosedBoxes (nodegetboard node)))

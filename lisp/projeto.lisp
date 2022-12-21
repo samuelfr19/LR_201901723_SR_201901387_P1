@@ -67,7 +67,7 @@
 (defun chooseDepth()
   (if (not (chooseDepthMessage))
       (let ((opt (read)))
-         (cond ((eq opt '0) (exec-search))
+         (cond ((eq opt '0) (chooseAlgorithm))
                ((or (not (numberp opt)) (< opt 0)) (progn (format t "Insira uma opcao valida")) (chooseDepth))
                (T opt))))
 )
@@ -93,43 +93,6 @@
   )
 )
 
-; 
-(defun chooseAlgorithm(board)
-  "Executa um algoritmo, dependendo da opcao escolhida"
-    (progn (chooseAlgorithmMessage)
-      (let ((opt (read)))
-           (cond ((not (numberp opt)) (progn (format t "Insira uma opcaoo valida") (chooseAlgorithm)))
-                 ((or (> opt 3) (< opt 0) ) (progn (format t "Insira uma opcao valida") (chooseAlgorithm)))
-                 ((eq opt 0) (chooseProblem))         
-                 (T (let* (
-                           (boxes (second board))
-                           (board (third board)))
-                        (ecase opt
-                          (1    
-                              (let* ((maxDepth (chooseDepth))
-                                 (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
-                                 (getTime) 'BFS)))  
-                              )
-                          )
-                          (2  
-                            (let
-                                 (solution (list (getTime) (bfs (list (createNode board NIL boxes)))
-                                 (getTime) 'DFS)) 
-                            )
-                          )
-                          (3  
-                              ;@TODO
-                          )
-                         )
-                      )
-                 )
-           )
-      )
-   )
-)
-
-
- 
 
 ;(chooseProblem)
 (defun chooseProblem()
@@ -148,11 +111,65 @@
     )
 )
 
+; 
+(defun chooseAlgorithm(board)
+  "Executa um algoritmo, dependendo da opcao escolhida"
+    (progn (chooseAlgorithmMessage)
+      (let ((opt (read)))
+        (cond ((not (numberp opt)) (progn (format t "Insira uma opcaoo valida") (chooseAlgorithm)))
+          ((or (> opt 3) (< opt 0) ) (progn (format t "Insira uma opcao valida") (chooseAlgorithm)))
+          ((eq opt 0) (chooseProblem))         
+          (T (let* (
+            (boxes (second board))
+            (board (third board)))
+              (ecase opt
+                (1    
+                  (let* ((maxDepth (chooseDepth))
+                    (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
+                    (getTime) 'DFS maxDepth)))
+                    (progn (writeFinalResults solution) solution)  
+                  )
+                )
+                (2  
+                  (let
+                    ((solution (list (getTime) (bfs (list (createNode board NIL boxes)))
+                    (getTime) 'BFS)))
+                    (progn (writeFinalResults solution) solution)
+                  )
+                )
+                (3  
+                    ;@TODO
+                )
+              )
+            )
+          )
+        )
+      )
+   )
+)
+
+
+ 
+;; <solution>::= (<start-time> <solution-path> <end-time> <numero-board> <algorithm> <depth>)
+(defun writeFinalResultsFile (solution)
+"Escreve, no ficheiro de resultados, a solucao e medidas de desempenho de um determinado problema"
+  (let* ((startTime (first solution))
+         (solutionNode (second solution))
+         (endTime (third solution))
+         (search (fourth solution)))
+            (with-open-file (file (getResultsPath) :direction :output :if-exists :append :if-does-not-exist :create)
+              (if (last solution)
+                (writeFinalResults file solutionNode startTime endTime search (last solution))   
+                (writeFinalResults file solutionNode startTime endTime search)   
+              )
+            )
+  )
+)
 
 
 ;----------------------------------------------------------------------------- TERMINAL PRINTS
 ;; (print-board (tabuleiroTeste)))
-(defun print-board(board &optional (stream t))
+(defun printBoard(board &optional (stream t))
   "Mostra um tabuleiro bem formatado"
   (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
   (format t "~%~%-------------------------------------------------------------------------------------------------------------------------------------------~%")
@@ -164,12 +181,32 @@
      ((null problems))
      (T (let ((problem (car problems)))
         (format T "~%   ~d- Tabuleiro ~d (~d caixas):~%" i (car problem) (cadr problem))
-        (print-board (caddr problem)))
+        (printBoard (caddr problem)))
         (printproblems (+ i 1) (cdr problems))
      ) 
 )
 )
 
+(defun writeFinalResults (stream solutionNode startTime endTime search &optional depth)
+"Escreve a solucao e medidas de desempenho para os algoritmos bfs e dfs"
+  (progn 
+    (format stream "~%* Resolucao do Tabuleiro ~a *" (getSolutionNode solutionNode))
+    (format stream "~%~t> Algoritmo: ~a " search)
+    (format stream "~%~t> Inicio: ~a:~a:~a" (first startTime) (second startTime) (third startTime))
+    (format stream "~%~t> Fim: ~a:~a:~a" (first endTime) (second endTime) (third endTime))
+    (format stream "~%~t> Numero de nos gerados: ~a" (+ (second solutionNode)(third solutionNode)))
+    (format stream "~%~t> Numero de nos expandidos: ~a" (second solutionNode))
+    (format stream "~%~t> Penetrencia: ~F" (penetrance solutionNode))
+    ;;(format stream "~%~t> Fator de ramificacao media ~F" (branching-factor solutionNode))
+    (if (eq search 'DFS)
+        (format stream "~%~t> Profundidade maxima: ~a" depth))
+    (format stream "~%~t> Comprimento da solucao ~a" (length (car solutionNode)))
+    (format stream "~%~t> Estado Inicial")
+    (printBoard (first (first solutionNode)) stream)
+    (format stream "~%~t> Estado Final")
+    (printBoard (getSolutionNode solutionNode) stream)
+  )
+)
 
 ;----------------------------------------------------------------------------- LOADING FROM FILES
 
@@ -197,6 +234,13 @@
     )
   )
 )
+
+;;(getResultsPath)
+(defun getResultsPath()
+"Devolve o path para o ficheiro (C:\lisp\resultados.dat)"
+    (make-pathname :host "..." :directory '(:absolute "lisp") :name "resultados" :type "dat")
+)
+
 
 
 (defun getTime()
