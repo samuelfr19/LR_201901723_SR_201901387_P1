@@ -31,6 +31,7 @@
   (nth 4 node)
 )
 
+<<<<<<< HEAD
 ; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
 (defun getSolutionNode (node)
   (car (last (car node)))
@@ -39,6 +40,9 @@
 (defun getSolutionLenght (node)
  (length (car node))
 )
+=======
+
+>>>>>>> e288b79f05d67137791504642c0a22f591eb1ae3
 
 (defun nodeGetF (node)
   (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
@@ -67,6 +71,9 @@
  (length (car node))
 )
 
+(defun numberGeneratedNodes (solution)
+    (+ (second solution) (third solution))
+)
 
 (defun noTeste ()
   (createNode 
@@ -274,6 +281,15 @@
   )
 )
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+>>>>>>> e288b79f05d67137791504642c0a22f591eb1ae3
 (defun cheapestNode (nodeList)
 "returns the node with the lowest f in nodeList"
   (if (cdr nodeList)
@@ -298,6 +314,13 @@
   )
 )
 
+;==========================================    PENATRANCE    ==========================================
+
+(defun penetrance (solution)
+ "Funcao para calcular e definir a penetrancia da solucao final"
+    (coerce (/ (getsolutionlenght solution) (+ (second solution)(third solution))) 'float)
+) 
+
 
 ;==========================================    HEURISTIC    ==========================================
 
@@ -306,16 +329,35 @@
   (- (nodegetboxes node) (countClosedBoxes (nodegetboard node)))
 )
 
-;
-(defun penetrance (solution)
- "Funcao para calcular e definir a penetrancia da solucao final"
-    (coerce (/ (getsolutionlenght solution) (+ (second solution)(third solution))) 'float)
-)
-
-(defun branchingFator (solution)
-
-
+;;  ((0 0 0) (0 0 1) (0 1 1) (0 0 1)) ((0 0 0) (0 1 0) (0 0 1) (0 1 1)) 
+(defun personalizedHeuristic (node)
+  ()
 )
 
 
+;==========================================    AVERAGE BRANCHING FACTOR    ==========================================
 
+(defun averageBranchingFator (solution &optional (depth (getsolutionlenght solution)) (generatedNodes (numbergeneratednodes solution))
+  (tolerance 0.1) (min 0) (max (numbergeneratednodes solution)))
+  (let ((average (/ ( + min max) 2)))
+       (cond 
+        ((< (- max min) tolerance) (/ (+ max min) 2))
+        ((< (auxiliarbranching average depth generatednodes) 0) 
+                (averagebranchingfator solution depth generatednodes tolerance average max))
+          (t (averagebranchingfator solution depth generatednodes tolerance min average))
+       )
+  )
+)
+
+<<<<<<< HEAD
+
+
+=======
+(defun auxiliarBranching (average depth generatedNodes)
+ (cond
+   ((= 1 depth) (- average generatednodes))
+   (T (+  (expt average depth) 
+          (auxiliarBranching average (- depth 1) generatednodes)))
+  )
+)
+>>>>>>> e288b79f05d67137791504642c0a22f591eb1ae3
