@@ -4,6 +4,7 @@
 3. Algoritmo de Procura do Melhor Primeiro (A*)
 4. Os algoritmos SMA*, IDA* e/ou RBFS (caso optem por implementar o bonus)"
 
+;==========================================    NOS    ==========================================
 
 (defun createNode (board parent boxes &optional (d 0) (h 0))
  "Cria um nó para a resolução e utilização nos algoritmos de pesquisa"
@@ -32,28 +33,104 @@
 
 
 
- 
+(defun nodeGetF (node)
+  (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
+)
+
+(defun replacePosition (l pos val)
+"returns the list 'l' with the value 'val' at the position 'pos'"
+  (if (= pos 0)
+    (cons val (cdr l))
+    (replaceposition (cdr l) (1- pos) (val))
+  )
+)
+
+(defun nodeSetHeuristic(node hFunc)
+"sets the heuristic of a node"
+  (replacePosition node 4 (funcall 'hfunc node))
+)
+
+
+; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
+(defun getSolutionNode (node)
+  (car (last (car node)))
+)
+
+(defun getSolutionLenght (node)
+ (length (car node))
+)
+
+(defun numberGeneratedNodes (solution)
+    (+ (second solution) (third solution))
+)
+
+(defun nodeGetF (node)
+  (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
+)
+
+(defun replacePosition (l pos val)
+"returns the list 'l' with the value 'val' at the position 'pos'"
+  (if (= pos 0)
+    (cons val (cdr l))
+    (replaceposition (cdr l) (1- pos) (val))
+  )
+)
+
+(defun nodeSetHeuristic(node hFunc)
+"sets the heuristic of a node"
+  (replacePosition node 4 (funcall 'hfunc node))
+)
+
+(defun nodeGetF (node)
+  (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
+)
+
+(defun replacePosition (l pos val)
+"returns the list 'l' with the value 'val' at the position 'pos'"
+  (if (= pos 0)
+    (cons val (cdr l))
+    (replaceposition (cdr l) (1- pos) (val))
+  )
+)
+
+(defun nodeSetHeuristic(node hFunc)
+"sets the heuristic of a node"
+  (replacePosition node 4 (funcall 'hfunc node))
+)
+
+
+; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
+(defun getSolutionNode (node)
+  (car (last (car node)))
+)
+
+(defun getSolutionLenght (node)
+ (length (car node))
+)
+
+
 (defun noTeste ()
   (createNode (tabuleiroTesteSimples) nil 1)
 )
 
+;==========================================    ALGORITMOS    ==========================================
 
-(defun generateSuccessorList (node)
+(defun generateChildrenList (node)
 "Gera uma lista de sucessores de um no pai"
   (append
-    (generatesuccessorshorizontal node)
-    (generatesuccessorsvertical node)
+    (generateChildrenhorizontal node)
+    (generateChildrenvertical node)
   )
 )
 
-(defun generateSuccessorsHorizontal (node &optional (x 1) (y 1) (solucao))
+(defun generateChildrenHorizontal (node &optional (x 1) (y 1))
 "Gera os sucessores com alteracoes horizontais de um no pai"
   (cond 
     ( (> y (length (car (getHorizontalArcs(nodeGetBoard node))))) 
-      (generateSuccessorsHorizontal node (1+ x))
+      (generateChildrenHorizontal node (1+ x))
     )
     ( (> x (length (getHorizontalArcs(nodeGetBoard node))))  '())
-    ( (not (listp (horizontalArc x y(nodeGetBoard node))))  (generateSuccessorsHorizontal node x (1+ y)))
+    ( (not (listp (horizontalArc x y(nodeGetBoard node))))  (generateChildrenHorizontal node x (1+ y)))
 
     (T
       (cons 
@@ -62,22 +139,21 @@
           node 
           (nodegetboxes node) 
           (1+ (nodeGetDepth node))
-        ) 
-        
-        (generateSuccessorsHorizontal node x (1+ y))
+        )
+        (generateChildrenHorizontal node x (1+ y))
       )   
     )
   )
 )
 
-(defun generateSuccessorsVertical (node &optional (x 1) (y 1) (solucao))
+(defun generateChildrenVertical (node &optional (x 1) (y 1))
 "Gera os sucessores com alteracoes verticais de um no pai"
   (cond 
     ( (> y (length (car (getVerticalArcs(nodeGetBoard node))))) 
-      (generateSuccessorsVertical node (1+ x))
+      (generateChildrenVertical node (1+ x))
     )
     ( (> x (length (getVerticalArcs(nodeGetBoard node))))  '())
-    ( (not (listp (VerticalArc y x (nodeGetBoard node))))  (generateSuccessorsVertical node x (1+ y)))
+    ( (not (listp (VerticalArc y x (nodeGetBoard node))))  (generateChildrenVertical node x (1+ y)))
 
     (T
       (cons 
@@ -88,9 +164,17 @@
           (1+ (nodeGetDepth node))
         ) 
         
-        (generateSuccessorsVertical node x (1+ y))
+        (generateChildrenVertical node x (1+ y))
       )   
     )
+  )
+)
+
+(defun generateChildrenListA* (node hfunc)
+  (mapcar 
+    (lambda (n))
+      (nodesetheuristic n hfunc)
+    (generatechildrenlist node)
   )
 )
 
@@ -102,7 +186,7 @@
 )
 
 (defun nodeRemoveDuplicates(lista opened closed)
-  (removeDuplicates (removeDuplicates lista opened) closed)
+  (removeDuplicates (removeDuplicates (removenil lista) (removenil opened)) (removenil closed))
 )
 
 (defun removeDuplicates (list1 list2)
@@ -131,15 +215,19 @@
 
 ;;(bfs (list(noTeste)))
 (defun bfs(opened &optional (closed '()))
-  (if (/= (length opened) 0)
+  (if (car opened)
     (let* 
       (
         (chosenNode (car opened))
-        (expanded (generatesuccessorlist chosenNode))
+        (children (generateChildrenlist chosenNode))
       )
-      (if (= (length expanded) 0)
-        (list (pathtoroot chosennode) (length opened) (length closed))
-        (bfs (append (cdr opened) (nodeRemoveDuplicates expanded opened closed) ) (append closed (list chosennode)))
+      (if (< (countclosedboxes (nodegetboard chosennode)) (nodegetboxes chosennode))
+        (if (car children)
+          (bfs (append (cdr opened) (nodeRemoveDuplicates children opened closed) ) (append closed (list chosennode)))
+          (list (pathtoroot chosennode) (length opened) (length closed))
+        )
+        ; (list (pathtoroot chosennode) (length opened) (length closed))
+        (print closed)
       )
     )
   )
@@ -150,16 +238,16 @@
   (cond
     ((not (car opened)) (print (car opened)))
     ((> (nodegetdepth (car opened)) maxDepth)
-      (dfs (cdr opened) maxDepth (append closed (car opened)))
+      (dfs (cdr opened) maxDepth (append closed (list (car opened))))
     )
     (T
       (let*
         (
           (chosenNode (car opened))
-          (children (generatesuccessorlist chosennode))
+          (children (generateChildrenlist chosennode))
         )
         (if (car children)
-          (dfs (append children (cdr opened)) maxdepth (append closed chosennode))
+          (dfs (append (nodeRemoveDuplicates children opened closed) (list (cdr opened))) maxdepth (append closed (list chosennode)))
           (list (pathtoroot chosennode) (length opened) (length closed))
         )
       )
@@ -170,29 +258,51 @@
 
 
 
+
+
+
+(defun cheapestNode (nodeList)
+"returns the node with the lowest f in nodeList"
+  (if (cdr nodeList)
+    (let (currentnode (cheapestnode(cdr nodeList)))
+      (if (< (nodegetf (car nodeList)) (nodegetf currentnode))
+        (car nodeList)
+        currentnode
+      )
+    )
+    (car nodeList)
+  )
+)
+
+(defun A* (heuristicFunction opened &optional (closed '()) (expandedChildren 0))
+  (if (car opened)
+    (let*
+      (
+        (currentNode (cheapestnode opened))
+        (children (generatechildrenlistA* currentnode heuristicfunction))
+      )
+    )
+  )
+)
+
+;==========================================    PENATRANCE    ==========================================
+
+(defun penetrance (solution)
+ "Funcao para calcular e definir a penetrancia da solucao final"
+    (coerce (/ (getsolutionlenght solution) (+ (second solution)(third solution))) 'float)
+) 
+
+
+;==========================================    HEURISTIC    ==========================================
+
+
 (defun baseHeuristic (node)
   (- (nodegetboxes) (countClosedBoxes (nodegetboard node)))
 )
 
-;
-(defun penetrance (solution)
- "Funcao para calcular e definir a penetrancia da solucao final"
-    (coerce (/ (getsolutionlenght solution) (numbergeneratednodes solution)) 'float)
-)
 
-(defun numberGeneratedNodes (solution)
-    (+ (second solution) (third solution))
-)
 
-; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
-(defun getSolutionNode (node)
-  (car (last (car node)))
-)
-
-(defun getSolutionLenght (node)
- (length (car node))
-)
-
+;==========================================    AVERAGE BRANCHING FACTOR    ==========================================
 
 (defun averageBranchingFator (solution &optional (depth (getsolutionlenght solution)) (generatedNodes (numbergeneratednodes solution))
   (tolerance 0.1) (min 0) (max (numbergeneratednodes solution)))
