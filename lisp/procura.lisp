@@ -31,7 +31,6 @@
   (nth 4 node)
 )
 
-<<<<<<< HEAD
 ; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
 (defun getSolutionNode (node)
   (car (last (car node)))
@@ -40,9 +39,6 @@
 (defun getSolutionLenght (node)
  (length (car node))
 )
-=======
-
->>>>>>> e288b79f05d67137791504642c0a22f591eb1ae3
 
 (defun nodeGetF (node)
   (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
@@ -281,15 +277,6 @@
   )
 )
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
->>>>>>> e288b79f05d67137791504642c0a22f591eb1ae3
 (defun cheapestNode (nodeList)
 "returns the node with the lowest f in nodeList"
   (if (cdr nodeList)
@@ -349,10 +336,6 @@
   )
 )
 
-<<<<<<< HEAD
-
-
-=======
 (defun auxiliarBranching (average depth generatedNodes)
  (cond
    ((= 1 depth) (- average generatednodes))
@@ -360,4 +343,3 @@
           (auxiliarBranching average (- depth 1) generatednodes)))
   )
 )
->>>>>>> e288b79f05d67137791504642c0a22f591eb1ae3
