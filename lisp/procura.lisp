@@ -32,7 +32,6 @@
 )
 
 
-
 (defun nodeGetF (node)
   (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
 )
@@ -47,7 +46,7 @@
 
 (defun nodeSetHeuristic(node hFunc)
 "sets the heuristic of a node"
-  (replacePosition node 4 (funcall 'hfunc node))
+  (replacePosition node 4 (funcall hfunc node)) 
 )
 
 
@@ -64,53 +63,22 @@
     (+ (second solution) (third solution))
 )
 
-(defun nodeGetF (node)
-  (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
-)
-
-(defun replacePosition (l pos val)
-"returns the list 'l' with the value 'val' at the position 'pos'"
-  (if (= pos 0)
-    (cons val (cdr l))
-    (replaceposition (cdr l) (1- pos) (val))
-  )
-)
-
-(defun nodeSetHeuristic(node hFunc)
-"sets the heuristic of a node"
-  (replacePosition node 4 (funcall 'hfunc node))
-)
-
-(defun nodeGetF (node)
-  (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
-)
-
-(defun replacePosition (l pos val)
-"returns the list 'l' with the value 'val' at the position 'pos'"
-  (if (= pos 0)
-    (cons val (cdr l))
-    (replaceposition (cdr l) (1- pos) (val))
-  )
-)
-
-(defun nodeSetHeuristic(node hFunc)
-"sets the heuristic of a node"
-  (replacePosition node 4 (funcall 'hfunc node))
-)
-
-
-; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
-(defun getSolutionNode (node)
-  (car (last (car node)))
-)
-
-(defun getSolutionLenght (node)
- (length (car node))
-)
-
-
 (defun noTeste ()
-  (createNode (tabuleiroTesteSimples) nil 1)
+  (createNode 
+  '(
+    ((0) (0))
+    ((0) (1))
+  )
+   nil 1)
+)
+
+(defun notestea()
+  (createnode 
+    '(
+      ((0 0 0) (0 0 1) (0 1 1) (0 0 1))
+      ((0 0 0) (0 1 0) (0 0 1) (0 1 1))
+    ) nil 3
+  ) 
 )
 
 ;==========================================    ALGORITMOS    ==========================================
@@ -145,7 +113,20 @@
     )
   )
 )
+#| 
+(
+  ((0 0 0) (0 0 1) (0 1 1) (0 0 1)) 
+  ((0 0 0) (0 1 0) (0 0 1) (0 1 1))
+)
 
+(trace )
+(trace generatechildrenvertical)
+(trace bfs)
+(bfs(list(notestea)))
+
+ |#
+
+ 
 (defun generateChildrenVertical (node &optional (x 1) (y 1))
 "Gera os sucessores com alteracoes verticais de um no pai"
   (cond 
@@ -213,25 +194,58 @@
   )
 )
 
-;;(bfs (list(noTeste)))
-(defun bfs(opened &optional (closed '()))
-  (if (car opened)
-    (let* 
-      (
-        (chosenNode (car opened))
-        (children (generateChildrenlist chosenNode))
-      )
-      (if (< (countclosedboxes (nodegetboard chosennode)) (nodegetboxes chosennode))
-        (if (car children)
-          (bfs (append (cdr opened) (nodeRemoveDuplicates children opened closed) ) (append closed (list chosennode)))
-          (list (pathtoroot chosennode) (length opened) (length closed))
+(defun firstSolution (listNodes)
+  (progn
+    (print listnodes)
+    (format t "~%count closed boxes = ~a   nodegetboxes = ~a~%" (countclosedboxes (nodegetboard (car listnodes))) (nodegetboxes (car listnodes)))
+    (if (car listnodes)
+      (let (current (car listnodes))
+        (if (< (countclosedboxes (nodegetboard current)) (nodegetboxes current))
+          (firstsolution (cdr listnodes))
+          current
         )
-        ; (list (pathtoroot chosennode) (length opened) (length closed))
-        (print closed)
       )
+      nil
     )
   )
 )
+
+;;(bfs (list(noTeste)))
+(defun bfs(opened &optional (closed '()))
+  (progn
+    (format t "~%o = ~a  c = ~a~%" (length opened) (length closed))
+    (if(car opened)
+        (if (< (countclosedboxes (nodegetboard (car opened))) (nodegetboxes (car opened)))
+          (let*
+            (
+              (currNode (car opened))
+              (children (generatechildrenlist currnode))
+            )
+            (if (car children)
+              (bfs (append (cdr opened) children) (append closed (list currnode)))
+              (list (pathtoroot currnode) (length opened) (length closed))
+            )
+          )
+          (list (pathtoroot (car opened)) (length opened) (length closed))
+        )
+    
+      #| (let* 
+        (
+          (currNode (car opened))
+          (children (generatechildrenlist currnode))
+          (childSolution (firstsolution children))
+        )
+        (if childsolution
+          (list(pathtoroot childsolution) (length opened) (length closed))
+          (bfs (append (cdr opened) children) (append closed (list currnode)))
+        )
+        ;por n em closed e children em opened
+      ) |#
+    )
+  )
+)
+
+
 
 ;;(dfs (list(noTeste)) 100)
 (defun dfs(opened maxDepth &optional (closed '()))
@@ -254,12 +268,6 @@
     )
   )
 )
-
-
-
-
-
-
 
 (defun cheapestNode (nodeList)
 "returns the node with the lowest f in nodeList"
