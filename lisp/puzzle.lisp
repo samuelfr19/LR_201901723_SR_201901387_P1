@@ -66,7 +66,7 @@
 )
 
 ;;; (checkClosedBox 70 20 (tabuleiroTeste))
-(defun checkClosedBox (x y board)
+(defun checkClosedBox (x y board) ;@todo retornar num em vez de boolean de quantos arcos tem a caixa, se 4 entao fechada
   (if (or (or (< x 1) (< y 1))(>= x (length (gethorizontalarcs board))))
     NIL
     (and
@@ -123,7 +123,7 @@
   (if 
     (and 
       (<= y (length (getVerticalArcs board)))
-      (<= x (1+ (length (car (getVerticalArcs board)))))
+      (<= x (length (car (getVerticalArcs board))))
     )
     
     (if (/= (getArcOnPosition y x (getVerticalArcs board)) 1)
