@@ -31,7 +31,17 @@
   (nth 4 node)
 )
 
-<<<<<<< HEAD
+
+; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
+(defun getSolutionNode (node)
+  (car (last (car node)))
+)
+
+(defun getSolutionLenght (node)
+ (length (car node))
+)
+
+
 (defun nodeGetF (node)
   (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
 )
@@ -49,7 +59,6 @@
   (replacePosition node 4 (funcall 'hfunc node))
 )
 
-=======
 
 ; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
 (defun getSolutionNode (node)
@@ -61,19 +70,58 @@
 )
 
 
->>>>>>> bb6b40a6aa4d2d924301a334145bbf75e6f33813
+(defun nodeGetF (node)
+  (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
+)
+
+(defun replacePosition (l pos val)
+"returns the list 'l' with the value 'val' at the position 'pos'"
+  (if (= pos 0)
+    (cons val (cdr l))
+    (replaceposition (cdr l) (1- pos) (val))
+  )
+)
+
+(defun nodeSetHeuristic(node hFunc)
+"sets the heuristic of a node"
+  (replacePosition node 4 (funcall 'hfunc node))
+)
+
+(defun nodeGetF (node)
+  (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
+)
+
+(defun replacePosition (l pos val)
+"returns the list 'l' with the value 'val' at the position 'pos'"
+  (if (= pos 0)
+    (cons val (cdr l))
+    (replaceposition (cdr l) (1- pos) (val))
+  )
+)
+
+(defun nodeSetHeuristic(node hFunc)
+"sets the heuristic of a node"
+  (replacePosition node 4 (funcall 'hfunc node))
+)
+
+
+; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
+(defun getSolutionNode (node)
+  (car (last (car node)))
+)
+
+(defun getSolutionLenght (node)
+ (length (car node))
+)
+
+
 (defun noTeste ()
   (createNode (tabuleiroTesteSimples) nil 1)
 )
 
-<<<<<<< HEAD
 ;==========================================    ALGORITMOS    ==========================================
 
 (defun generateChildrenList (node)
-=======
-
-(defun generateSuccessorList (node)
->>>>>>> bb6b40a6aa4d2d924301a334145bbf75e6f33813
 "Gera uma lista de sucessores de um no pai"
   (append
     (generateChildrenhorizontal node)
@@ -213,7 +261,24 @@
   )
 )
 
-<<<<<<< HEAD
+
+
+
+(defun baseHeuristic (node)
+  (- (nodegetboxes) (countClosedBoxes (nodegetboard node)))
+)
+
+;
+(defun penetrance (solution)
+ "Funcao para calcular e definir a penetrancia da solucao final"
+    (coerce (/ (getsolutionlenght solution) (+ (second solution)(third solution))) 'float)
+)
+
+(defun branchingFator (solution)
+
+
+)
+
 (defun cheapestNode (nodeList)
 "returns the node with the lowest f in nodeList"
   (if (cdr nodeList)
@@ -237,8 +302,9 @@
     )
   )
 )
-=======
 
+
+;==========================================    HEURISTIC    ==========================================
 
 
 (defun baseHeuristic (node)
@@ -256,4 +322,3 @@
 
 )
 
->>>>>>> bb6b40a6aa4d2d924301a334145bbf75e6f33813
