@@ -31,6 +31,7 @@
   (nth 4 node)
 )
 
+<<<<<<< HEAD
 (defun nodeGetF (node)
   (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
 )
@@ -48,13 +49,31 @@
   (replacePosition node 4 (funcall 'hfunc node))
 )
 
+=======
+
+; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
+(defun getSolutionNode (node)
+  (car (last (car node)))
+)
+
+(defun getSolutionLenght (node)
+ (length (car node))
+)
+
+
+>>>>>>> bb6b40a6aa4d2d924301a334145bbf75e6f33813
 (defun noTeste ()
   (createNode (tabuleiroTesteSimples) nil 1)
 )
 
+<<<<<<< HEAD
 ;==========================================    ALGORITMOS    ==========================================
 
 (defun generateChildrenList (node)
+=======
+
+(defun generateSuccessorList (node)
+>>>>>>> bb6b40a6aa4d2d924301a334145bbf75e6f33813
 "Gera uma lista de sucessores de um no pai"
   (append
     (generateChildrenhorizontal node)
@@ -152,6 +171,7 @@
   )
 )
 
+;;(bfs (list(noTeste)))
 (defun bfs(opened &optional (closed '()))
   (if (car opened)
     (let* 
@@ -171,6 +191,7 @@
   )
 )
 
+;;(dfs (list(noTeste)) 100)
 (defun dfs(opened maxDepth &optional (closed '()))
   (cond
     ((not (car opened)) (print (car opened)))
@@ -192,6 +213,7 @@
   )
 )
 
+<<<<<<< HEAD
 (defun cheapestNode (nodeList)
 "returns the node with the lowest f in nodeList"
   (if (cdr nodeList)
@@ -215,3 +237,23 @@
     )
   )
 )
+=======
+
+
+
+(defun baseHeuristic (node)
+  (- (nodegetboxes) (countClosedBoxes (nodegetboard node)))
+)
+
+;
+(defun penetrance (solution)
+ "Funcao para calcular e definir a penetrancia da solucao final"
+    (coerce (/ (getsolutionlenght solution) (+ (second solution)(third solution))) 'float)
+)
+
+(defun branchingFator (solution)
+
+
+)
+
+>>>>>>> bb6b40a6aa4d2d924301a334145bbf75e6f33813
