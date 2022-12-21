@@ -297,9 +297,13 @@
 
 
 (defun baseHeuristic (node)
-  (- (nodegetboxes) (countClosedBoxes (nodegetboard node)))
+  (- (nodegetboxes node) (countClosedBoxes (nodegetboard node)))
 )
 
+;;  ((0 0 0) (0 0 1) (0 1 1) (0 0 1)) ((0 0 0) (0 1 0) (0 0 1) (0 1 1)) 
+(defun personalizedHeuristic (node)
+  ()
+)
 
 
 ;==========================================    AVERAGE BRANCHING FACTOR    ==========================================

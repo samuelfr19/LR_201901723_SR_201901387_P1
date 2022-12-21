@@ -1,17 +1,170 @@
 
-  Algoritmo: DFS 
-  Inicio: 11:45:0
-  Fim: 11:54:0
-  Numero de nos gerados: 16
-  Numero de nos expandidos: 6
-  Penetrencia: 0.25
-  Fator de ramificacao media: 1.65625
-  Profundidade maxima: 70
-  Comprimento da solucao: 4
-  Estado Inicial
+
+
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 1 
+  -- Algoritmo: DFS 
+  -- Inicio: 11:45:0
+  -- Fim: 11:54:0
+  -- Numero de nos gerados: 16
+  -- Numero de nos expandidos: 6
+  -- Penetrencia: 0.25
+  -- Fator de ramificacao media: 1.65625
+  -- Profundidade maxima: 70
+  -- Comprimento da solucao: 4
+  -- Estado Inicial
    ((0) (0))
    ((0) (1))
-  Estado Final
+  -- Estado Final
+   ((1) (1))
+   ((1) (1))
+
+
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 1 
+  -- Algoritmo: DFS 
+  -- Inicio: 11:45:0
+  -- Fim: 11:54:0
+  -- Numero de nos gerados: 16
+  -- Numero de nos expandidos: 6
+  -- Penetrencia: 0.25
+  -- Fator de ramificacao media: 1.65625
+  -- Profundidade maxima: 70
+  -- Comprimento da solucao: 4
+  -- Estado Inicial
+   ((0) (0))
+   ((0) (1))
+  -- Estado Final
+   ((1) (1))
+   ((1) (1))
+
+
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 1 
+  -- Algoritmo: DFS 
+  -- Inicio: 11:45:0
+  -- Fim: 11:54:0
+  -- Numero de nos gerados: 16
+  -- Numero de nos expandidos: 6
+  -- Penetrencia: 0.25
+  -- Fator de ramificacao media: 1.65625
+  -- Profundidade maxima: 70
+  -- Comprimento da solucao: 4
+  -- Estado Inicial
+   ((0) (0))
+   ((0) (1))
+  -- Estado Final
+   ((1) (1))
+   ((1) (1))
+
+
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 1 
+  -- Algoritmo: DFS 
+  -- Inicio: 11:45:0
+  -- Fim: 11:54:0
+  -- Numero de nos gerados: 16
+  -- Numero de nos expandidos: 6
+  -- Penetrencia: 0.25
+  -- Fator de ramificacao media: 1.65625
+  -- Profundidade maxima: 70
+  -- Comprimento da solucao: 4
+  -- Estado Inicial
+   ((0) (0))
+   ((0) (1))
+  -- Estado Final
+   ((1) (1))
+   ((1) (1))
+
+
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 1 
+  -- Algoritmo: DFS 
+  -- Inicio: 11:45:0
+  -- Fim: 11:54:0
+  -- Numero de nos gerados: 16
+  -- Numero de nos expandidos: 6
+  -- Penetrencia: 0.25
+  -- Fator de ramificacao media: 1.65625
+  -- Profundidade maxima: 70
+  -- Comprimento da solucao: 4
+  -- Estado Inicial
+   ((0) (0))
+   ((0) (1))
+  -- Estado Final
+   ((1) (1))
+   ((1) (1))
+
+
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 1 
+  -- Algoritmo: DFS 
+  -- Inicio: 11:45:0
+  -- Fim: 11:45:14
+  -- Numero de nos gerados: 16
+  -- Numero de nos expandidos: 6
+  -- Penetrencia: 0.25
+  -- Fator de ramificacao media: 1.65625
+  -- Profundidade maxima: 70
+  -- Comprimento da solucao: 4
+  -- Estado Inicial
+   ((0) (0))
+   ((0) (1))
+  -- Estado Final
+   ((1) (1))
+   ((1) (1))
+
+
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 1 
+  -- Algoritmo: DFS 
+  -- Inicio: 11:45:0
+  -- Fim: 11:54:0
+  -- Numero de nos gerados: 16
+  -- Numero de nos expandidos: 6
+  -- Penetrencia: 0.25
+  -- Fator de ramificacao media: 1.65625
+  -- Profundidade maxima: 70
+  -- Comprimento da solucao: 4
+  -- Estado Inicial
+   ((0) (0))
+   ((0) (1))
+  -- Estado Final
+   ((1) (1))
+   ((1) (1))
+
+
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 1 
+  -- Algoritmo: DFS 
+  -- Inicio: 11:45:0
+  -- Fim: 11:54:0
+  -- Numero de nos gerados: 16
+  -- Numero de nos expandidos: 6
+  -- Penetrancia: 0.25
+  -- Fator de ramificacao media: 1.65625
+  -- Profundidade maxima: 6
+  -- Comprimento da solucao: 4
+  -- Estado Inicial
+   ((0) (0))
+   ((0) (1))
+  -- Estado Final
    ((1) (1))
    ((1) (1))
 
