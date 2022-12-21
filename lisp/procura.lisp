@@ -31,6 +31,14 @@
   (nth 4 node)
 )
 
+; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
+(defun getSolutionNode (node)
+  (car (last (car node)))
+)
+
+(defun getSolutionLenght (node)
+ (length (car node))
+)
 
 (defun nodeGetF (node)
   (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
