@@ -169,3 +169,23 @@
    ((1) (1))
 
 
+
+ RESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:
+
+  -- Objetivo caixas fechadas: 7 
+  -- Algoritmo: BFS 
+  -- Inicio: 11:45:27
+  -- Fim: 11:45:36
+  -- Numero de nos gerados: 85
+  -- Numero de nos expandidos: 78
+  -- Penetrancia: 0.09411765
+  -- Fator de ramificacao media: 1.5356445
+  -- Comprimento da solucao: 8
+  -- Estado Inicial
+   ((0 0 1 0) (1 1 1 1) (0 0 1 1) (0 0 1 1) (0 0 1 1))
+   ((0 0 1 1) (0 0 1 1) (1 1 1 1) (1 0 1 1) (0 1 1 1))
+  -- Estado Final
+   ((1 1 1 1) (1 1 1 1) (1 1 1 1) (1 1 1 1) (0 0 1 1))
+   ((0 0 1 1) (0 0 1 1) (1 1 1 1) (1 0 1 1) (0 1 1 1))
+
+

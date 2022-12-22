@@ -20,13 +20,12 @@
 
 
 
-;; (getHorizontalArcs (tabuleiroTeste))
+
 (defun getHorizontalArcs (board)
 	"Retorna a lista dos arcos horizontais de um tabuleiro."
 	(car board)
 )
 
-;; (getVerticalArcs (tabuleiroTeste))
 (defun getVerticalArcs (board)
 	"Retorna a lista dos arcos verticiais de um tabuleiro."
 	(car (cdr board))

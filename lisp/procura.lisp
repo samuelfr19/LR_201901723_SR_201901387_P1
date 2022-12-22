@@ -7,7 +7,6 @@
 ;==========================================    NOS    ==========================================
 
 (defun createNode (board parent boxes &optional (d 0) (h 0))
- "Cria um nó para a resolução e utilização nos algoritmos de pesquisa"
   (list board parent boxes d h)
 )
 
@@ -90,6 +89,7 @@
 )
 
 ;==========================================    ALGORITMOS    ==========================================
+
 
 (defun generateChildrenList (node)
 "Gera uma lista de sucessores de um no pai"
@@ -218,12 +218,15 @@
   )
 )
 
-;;(bfs (list(noTeste)))
+;;(bfs (list(noTestea)))
 (defun bfs(opened &optional (closed '()))
   (progn
     (format t "~%o = ~a  c = ~a~%" (length opened) (length closed))
+    
     (if(car opened)
+       
         (if (< (countclosedboxes (nodegetboard (car opened))) (nodegetboxes (car opened)))
+          
           (let*
             (
               (currNode (car opened))
@@ -235,6 +238,7 @@
             )
           )
           (list (pathtoroot (car opened)) (length opened) (length closed))
+
         )
     
       #| (let* 
@@ -255,7 +259,7 @@
 
 
 
-;;(dfs (list(noTeste)) 100)
+;;(dfs (list(noTestea)) 100)
 (defun dfs(opened maxDepth &optional (closed '()))
   (cond
     ((not (car opened)) (print (car opened)))

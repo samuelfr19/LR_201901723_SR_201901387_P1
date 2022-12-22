@@ -84,8 +84,6 @@
 
 
 
-;; <solution>::= (<start-time> <solution-path> <end-time> <numero-board> <algorithm>)
-; (start)
 (defun start()
   "Funcao que inicia todo o processo do programa, apresenta as opcoes iniciais e pede ao utilizador para escolher 
   a opcao para avancar para o proximo passo"
@@ -144,12 +142,12 @@
     )
 )
 
-; 
+
 (defun chooseAlgorithm(board)
   "Executa um algoritmo, dependendo da opcao escolhida"
     (progn (chooseAlgorithmMessage)
       (let ((opt (read)))
-        (cond ((not (numberp opt)) (progn (format t "Insira uma opcaoo valida!!") (chooseAlgorithm)))
+        (cond ((not (numberp opt)) (progn (format t "Insira uma opcao valida!!") (chooseAlgorithm)))
           ((or (> opt 3) (< opt 0)) (progn (format t "Insira uma opcao valida!!") (chooseAlgorithm)))
           ((eq opt 0) (chooseProblem))         
           (T (let* (
@@ -186,7 +184,7 @@
 )
 
 
-; (writeFinalResultsFile '((11 45 00) (((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10) (11 54 00) DFS 6))
+
 ;; <solution>::= (<startTime> <solutionNode> <endTime> <algorithm> <depth>)
 (defun writeFinalResultsFile (solution)
 "Escreve, no ficheiro de resultados, a solucao e medidas de desempenho de um determinado problema"
@@ -231,7 +229,6 @@
 )
 
 (defun writeFinalResults (stream solutionNode startTime endTime search &optional depth)
-"Escreve a solucao e medidas de desempenho para os algoritmos bfs e dfs"
   (progn 
     (format stream "~%~tRESULTADOS FINAIS DA RESOLUCAO DO TABULEIRO:~%")
     (format stream "~%~t -- Objetivo caixas fechadas: ~a " (countClosedBoxes(getSolutionNode solutionNode)))

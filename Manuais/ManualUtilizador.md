@@ -111,3 +111,5 @@ Os resultados do problema serão apresentados em forma de print para o utilizado
 Os dados resultantes da execução do programa além de apresentadas ao utilizador no programa serão tambem exportadas para o utilizador puder visualizar depois de fechar o programa, terá exatamente o mesmo formato que no terminal só que será exportado no ficheiro ***resultados.dat***, este será criado automaticamente após o utilizador concluir o problema, caso o utilizador realize mais resultados o ficheiro irá ser atualizado com os novos resultados de forma automática de forma a guardar todas utilizações.
 
 ---
+
+
