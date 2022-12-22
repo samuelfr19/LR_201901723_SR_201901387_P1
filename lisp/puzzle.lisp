@@ -1,13 +1,12 @@
-"Codigo relacionado com o problema."
-
+;;  Codigo relacionado com o problema.
+;;  Autores: Luis Rocha (201901723) e Samuel Ribeiro (201901387)
+;;  Ano letivo: 22/23
 
 (defun tabuleiroTeste ()
   "Retorna um tabuleiro 3x3 (3 arcos na vertical por 3 arcos na horizontal) do lab 7"
   '(
      ((0 0 0) (0 0 1) (0 1 1) (0 1 1))
      ((0 0 0) (0 1 1) (1 1 1) (0 1 1))
-    ;((0 0 0) (0 0 1) (0 1 1) (0 0 1))
-    ;((0 0 0) (0 1 1) (1 0 1) (0 1 1))
   )
 )
 
@@ -17,9 +16,6 @@
     ((0) (1))
   )
 )
-
-
-
 
 (defun getHorizontalArcs (board)
 	"Retorna a lista dos arcos horizontais de um tabuleiro."
@@ -32,7 +28,6 @@
 )
 
 
-;; (getArcOnPosition 1 3 (getHorizontalArcs (tabuleiroTeste)))
 (defun getArcOnPosition (x y board)
 	"Função que retorna o arco que se encontra numa posicao da lista de arcos
 	horizontais ou verticais"
@@ -41,7 +36,6 @@
   )
 )
 
-;; (replaceElem 1 (car (gethorizontalarcs(tabuleiroteste))))
 (defun replaceElem(list x &optional (y 1))
 	"Função que recebe um índice, uma lista e valor y e deverá substituir o elemento nessa
 	posição pelo valor y, que deve ser definido com o valor de default a 1"
@@ -51,8 +45,6 @@
     )
 )
 
-;; (arcOnPosition 1 3 (gethorizontalarcs (tabuleiroteste)))
-;; (arcOnPosition 4 1 (getverticalarcs (tabuleiroteste)))
 (defun arcOnPosition (x y list)
 	"Insere um arco (representado pelo valor 1) numa lista que representa o conjunto de
 	arcos horizontais ou verticais de um tabuleiro."
@@ -64,8 +56,7 @@
   )
 )
 
-;;; (checkClosedBox 70 20 (tabuleiroTeste))
-(defun checkClosedBox (x y board) ;@todo retornar num em vez de boolean de quantos arcos tem a caixa, se 4 entao fechada
+(defun checkClosedBox (x y board) 
   (if (or (or (< x 1) (< y 1))(>= x (length (gethorizontalarcs board))))
     NIL
     (and
@@ -77,9 +68,6 @@
   )
 )
 
-
-
-;;(countClosedBoxes (tabuleiroTeste))
 (defun countClosedBoxes (board &optional (row 1) (col 1))
   "Devolve o numero de caixas fdechadas no tabuleiro inteiro"
   (cond
@@ -95,8 +83,6 @@
   )
 )
 
-
-;;  (horizontalArc 1 3 (tabuleiroTeste))
 (defun horizontalArc (x y board)
   "Função que recebe dois índices e o tabuleiro e coloca um arco horizontal nessa
   posição. A função deverá retornar NIL caso já exista um arco colocado nessa posição ou caso a posição
@@ -113,7 +99,6 @@
   )
 )
  
-;; (verticalArc 1 2 (tabuleiroTeste))
 (defun verticalArc (x y board)
   ": Função que recebe dois índices e o tabuleiro e coloca um arco vertical nessa posição.
   A função deverá retornar NIL caso já exista um arco colocado nessa posição ou caso a posição indicada
@@ -130,5 +115,4 @@
     )
   )
 )
-
 

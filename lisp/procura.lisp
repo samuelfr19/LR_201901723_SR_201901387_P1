@@ -1,8 +1,10 @@
-"Deve conter a implementacao de:
-1. Algoritmo de Procura de Largura Primeiro (BFS)
-2. Algoritmo de Procura do Profundidade Primeiro (DFS)
-3. Algoritmo de Procura do Melhor Primeiro (A*)
-4. Os algoritmos SMA*, IDA* e/ou RBFS (caso optem por implementar o bonus)"
+;;  Deve conter a implementacao de:
+;;  1. Algoritmo de Procura de Largura Primeiro (BFS)
+;;  2. Algoritmo de Procura do Profundidade Primeiro (DFS)
+;;  3. Algoritmo de Procura do Melhor Primeiro (A*)
+;;  4. Os algoritmos SMA*, IDA* e/ou RBFS (caso optem por implementar o bonus)
+;;  Autores: Luis Rocha e Samuel Ribeiro
+;;  Ano letivo 22/23
 
 ;==========================================    NOS    ==========================================
 
@@ -31,24 +33,14 @@
 )
 
 (defun nodeGetF (node)
-  (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
-)
-
-(defun replacePosition (l pos val)
-"returns the list 'l' with the value 'val' at the position 'pos'"
-  (if (= pos 0)
-    (cons val (cdr l))
-    (replaceposition (cdr l) (1- pos) (val))
-  )
+  (+ (nodegetdepth node) (nodegetheuristic node))
 )
 
 (defun nodeSetHeuristic(node hFunc)
 "sets the heuristic of a node"
-  (replacePosition node 4 (funcall hfunc node)) 
+  (replaceElem node 4 (funcall hfunc node)) 
 )
 
-
-; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
 (defun getSolutionNode (node)
   (car (last (car node)))
 )
@@ -87,6 +79,7 @@
     ) nil 7
   ) 
 )
+
 
 ;==========================================    ALGORITMOS    ==========================================
 
@@ -147,8 +140,9 @@
 
 (defun generateChildrenListA* (node hfunc)
   (mapcar 
-    (lambda (n))
-      (nodesetheuristic n hfunc)
+    #'(lambda (x) 
+      (nodesetheuristic x 'baseheuristic)
+    ) 
     (generatechildrenlist node)
   )
 )
@@ -198,7 +192,6 @@
   )
 )
 
-;;(bfs (list(noTestea)))
 (defun bfs(opened &optional (closed '()))
   (if(car opened)
       (if (< (countclosedboxes (nodegetboard (car opened))) (nodegetboxes (car opened)))
@@ -221,7 +214,6 @@
   )
 )
 
-;;(dfs (list(noTeste)) 100)
 (defun dfs(opened maxDepth &optional (closed '()))
   (cond
     ((not (car opened)) nil)
@@ -260,12 +252,34 @@
   )
 )
 
+(defun insertListIfNotMember (elem list1 list2)
+  (if (and
+      (not (member elem list1))
+      (not (member elem list2))
+    )
+    (cons list1 (list elem))
+  )
+)
+
+(defun orderChildrenByF (children)
+  (if(car children)
+    (if (> (nodegetF (car children)))
+
+    )
+  )
+)
+
 (defun A* (heuristicFunction opened &optional (closed '()) (expandedChildren 0))
   (if (car opened)
     (let*
       (
         (currentNode (cheapestnode opened))
         (children (generatechildrenlistA* currentnode heuristicfunction))
+        (solution (firstsolution children))
+      )
+      (if(null solution)
+        (a* heuristicfunction opened closed (+ expandedchildren (length children)))
+        (list (pathtoroot solution) (length opened) (length closed))
       )
     )
   )
@@ -278,19 +292,11 @@
     (coerce (/ (getsolutionlenght solution) (+ (second solution)(third solution))) 'float)
 ) 
 
-
 ;==========================================    HEURISTIC    ==========================================
-
 
 (defun baseHeuristic (node)
   (- (nodegetboxes node) (countClosedBoxes (nodegetboard node)))
 )
-
-;;  ((0 0 0) (0 0 1) (0 1 1) (0 0 1)) ((0 0 0) (0 1 0) (0 0 1) (0 1 1)) 
-(defun personalizedHeuristic (node)
-  ()
-)
-
 
 ;==========================================    AVERAGE BRANCHING FACTOR    ==========================================
 

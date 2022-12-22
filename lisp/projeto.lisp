@@ -1,4 +1,6 @@
-"ficheiro que carrega os outros ficheiros de codigo, escreve e le ficheiros, e trata da interacao com o utilizador"
+;;  Carrega os outros ficheiros de codigo, escreve e le de ficheiros e trata da interacao com o utilizador
+;;  Autores: Luis Rocha e Samuel Ribeiro
+;;  Ano letivo 22/23
 
 (load "procura.lisp")
 (load "puzzle.lisp")
@@ -20,7 +22,6 @@
  )
 )
 
-; (algorithmMessage)
 (defun chooseAlgorithmMessage()
 "Mostra as opções de algoritmos de procura para aplicar no problema/tabuleiro"
   (progn
@@ -36,7 +37,6 @@
   )
 )
 
-;; (chooseProblemMessage)
 (defun chooseProblemMessage()
 "Mostra as opções iniciais"
   (progn
@@ -51,7 +51,6 @@
  )
 )
 
-;; (chooseDepthMessage)
 (defun chooseDepthMessage()
 "Mostra a caixa para o utilizador escolher a profundidade maxima desejada"
   (progn
@@ -65,7 +64,6 @@
 )
 
 
-;; (chooseHeuristicMessage)
 (defun chooseHeuristicMessage()
 "Mostra a caixa para o utilizador escolher a heuristica desejada"
   (progn
@@ -80,8 +78,8 @@
  )
 )
 
-;;==========================================    CONTROL FUNCTIONS     ==========================================
 
+;;==========================================    CONTROL FUNCTIONS     ==========================================
 
 
 (defun start()
@@ -102,7 +100,6 @@
 )
 
 
-; (chooseHeuristic)
 (defun chooseHeuristic(board)
   (if (not (chooseHeuristicMessage))
       (let ((opt (read)))
@@ -113,7 +110,6 @@
 )
 
 
-; (chooseDepth)
 (defun chooseDepth(board)
   (if (not (chooseDepthMessage))
       (let ((opt (read)))
@@ -123,9 +119,6 @@
 )
 
 
-
-
-;(chooseProblem)
 (defun chooseProblem()
  (progn (chooseProblemMessage)
       (let ((opt (read)))
@@ -188,7 +181,6 @@
 
 
 
-;; <solution>::= (<startTime> <solutionNode> <endTime> <algorithm> <depth>)
 (defun writeFinalResultsFile (solution)
 "Escreve, no ficheiro de resultados, a solucao e medidas de desempenho de um determinado problema"
   (let* (
@@ -203,9 +195,8 @@
   )
 )
 
+;==========================================    TERMINAL PRINTS    ==========================================
 
-;----------------------------------------------------------------------------- TERMINAL PRINTS
-;; (print-board (tabuleiroTeste)))
 (defun printBoard(board &optional (stream t))
   "Mostra um tabuleiro bem formatado"
   (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
@@ -218,7 +209,6 @@
   (format t "~%")
 )
 
-;; (printProblems)
 (defun printProblems (&optional (i 1) (problems (getProblems)))
     (cond
      ((null problems))
@@ -274,9 +264,8 @@
   )
 )
 
-;----------------------------------------------------------------------------- LOADING FROM FILES
+;==========================================    LOADING FROM FILES    ==========================================
 
-;; (getProblems)
 (defun getProblems ()
   "Metodo para ir buscar os problemas a partir do ficheiro 'problemas.dat'"
   (with-open-file (stream "../problemas.dat" :if-does-not-exist :error)
@@ -290,7 +279,6 @@
   )
 )
 
-;; (getProblem "e")
 (defun getProblem (n &optional (probs (getProblems)))
   "Procurar recursivamente na lista de problemas o que estamos a procurar (todos em letra minuscula e nao passar lista) (P.E. '(getproblema \"a\")'"
   (if (car probs)
