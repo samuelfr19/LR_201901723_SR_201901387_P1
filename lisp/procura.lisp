@@ -34,17 +34,10 @@
   (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
 )
 
-(defun replacePosition (l pos val)
-"returns the list 'l' with the value 'val' at the position 'pos'"
-  (if (= pos 0)
-    (cons val (cdr l))
-    (replaceposition (cdr l) (1- pos) (val))
-  )
-)
 
 (defun nodeSetHeuristic(node hFunc)
 "sets the heuristic of a node"
-  (replacePosition node 4 (funcall hfunc node)) 
+  (replaceElem node 4 (funcall hfunc node)) 
 )
 
 
@@ -88,7 +81,7 @@
   ) 
 )
 
-;==========================================    ALGORITMOS    ==========================================
+;==========================================    ALGORITHMS    ==========================================
 
 
 (defun generateChildrenList (node)

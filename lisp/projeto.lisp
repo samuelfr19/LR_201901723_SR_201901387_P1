@@ -158,7 +158,7 @@
                 (let* ((maxDepth (chooseDepth board))
                   (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
                   (getTime) 'DFS maxDepth)))
-                  (progn (writeFinalResults solution) solution)  
+                  (progn (writeFinalResultsFile solution) solution)  
                 )
               )
               (2  
@@ -166,16 +166,18 @@
                   (
                     (
                       solution (list (getTime) (bfs (list (createNode board NIL boxes))) (getTime) 'BFS)
+                      
                     )
                   )
-                  (progn (writeFinalResults solution) solution)
+                  (progn
+                  (writeFinalResultsFile solution) solution)
                 )
               )
               (3  
                 (let* ((heuristic (chooseHeuristic board))
                   (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
                   (getTime) 'A* heuristic)))
-                  (progn (writeFinalResults solution) solution)  
+                  (progn (writeFinalResultsFile solution) solution)  
                 )
               )
             )
