@@ -110,7 +110,6 @@
     (if (/= (getArcOnPosition x y (getHorizontalArcs board)) 1)
         (list (arcOnPosition x y (getHorizontalArcs board)) 
           (getverticalarcs board))
-    0
     )
   )
 )
@@ -129,7 +128,6 @@
     (if (/= (getArcOnPosition y x (getVerticalArcs board)) 1)
         (list (gethorizontalarcs board)
           (arcOnPosition y x (getVerticalArcs board)))
-    0
     )
   )
 )
