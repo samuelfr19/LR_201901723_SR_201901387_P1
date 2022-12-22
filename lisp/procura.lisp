@@ -30,15 +30,6 @@
   (nth 4 node)
 )
 
-; (getsolutionnode '(((((0) (0)) ((0) (1))) (((1) (0)) ((0) (1))) (((1) (1)) ((0) (1))) (((1) (1)) ((1) (1)))) 6 10))
-(defun getSolutionNode (node)
-  (car (last (car node)))
-)
-
-(defun getSolutionLenght (node)
- (length (car node))
-)
-
 (defun nodeGetF (node)
   (+ (nodegetdepth node) (nodegetheuristic node)) ;@todo verificar se de facto e' este o valor de f para o nosso projeto
 )
@@ -88,6 +79,15 @@
   ) 
 )
 
+(defun notesteb()
+  (createnode 
+    '(
+      ((0 0 1 0) (1 1 1 1) (0 0 1 1) (0 0 1 1) (0 0 1 1)) 
+      ((0 0 1 1) (0 0 1 1) (1 1 1 1) (1 0 1 1) (0 1 1 1))
+    ) nil 7
+  ) 
+)
+
 ;==========================================    ALGORITMOS    ==========================================
 
 
@@ -106,7 +106,7 @@
       (generateChildrenHorizontal node (1+ x))
     )
     ( (> x (length (getHorizontalArcs(nodeGetBoard node))))  '())
-    ( (not (listp (horizontalArc x y(nodeGetBoard node))))  (generateChildrenHorizontal node x (1+ y)))
+    ( (/= 0 (getarconposition x y (gethorizontalarcs(nodegetboard node))))  (generateChildrenHorizontal node x (1+ y)))
 
     (T
       (cons 
@@ -121,28 +121,15 @@
     )
   )
 )
-#| 
-(
-  ((0 0 0) (0 0 1) (0 1 1) (0 0 1)) 
-  ((0 0 0) (0 1 0) (0 0 1) (0 1 1))
-)
 
-(trace )
-(trace generatechildrenvertical)
-(trace bfs)
-(bfs(list(notestea)))
-
- |#
-
- 
 (defun generateChildrenVertical (node &optional (x 1) (y 1))
 "Gera os sucessores com alteracoes verticais de um no pai"
   (cond 
-    ( (> y (length (car (getVerticalArcs(nodeGetBoard node))))) 
+    ( (> y (length (getVerticalArcs(nodeGetBoard node)))) 
       (generateChildrenVertical node (1+ x))
     )
-    ( (> x (length (getVerticalArcs(nodeGetBoard node))))  '())
-    ( (not (listp (VerticalArc y x (nodeGetBoard node))))  (generateChildrenVertical node x (1+ y)))
+    ( (> x (length (car (getVerticalArcs(nodeGetBoard node))))) '())
+    ( (/= 0 (getarconposition y x (getverticalarcs(nodegetboard node))))  (generateChildrenVertical node x (1+ y)))
 
     (T
       (cons 
@@ -152,7 +139,6 @@
           (nodegetboxes node) 
           (1+ (nodeGetDepth node))
         ) 
-        
         (generateChildrenVertical node x (1+ y))
       )   
     )
@@ -203,66 +189,42 @@
 )
 
 (defun firstSolution (listNodes)
-  (progn
-    (print listnodes)
-    (format t "~%count closed boxes = ~a   nodegetboxes = ~a~%" (countclosedboxes (nodegetboard (car listnodes))) (nodegetboxes (car listnodes)))
-    (if (car listnodes)
-      (let (current (car listnodes))
-        (if (< (countclosedboxes (nodegetboard current)) (nodegetboxes current))
-          (firstsolution (cdr listnodes))
-          current
-        )
-      )
-      nil
+  (if (car listnodes)
+    (if (<= (nodegetboxes (car listnodes)) (countclosedboxes(nodegetboard (car listnodes))))
+      (car listnodes)
+      (firstsolution (cdr listnodes))
     )
+    nil
   )
 )
 
 ;;(bfs (list(noTestea)))
 (defun bfs(opened &optional (closed '()))
-  (progn
-    (format t "~%o = ~a  c = ~a~%" (length opened) (length closed))
-    
-    (if(car opened)
-       
-        (if (< (countclosedboxes (nodegetboard (car opened))) (nodegetboxes (car opened)))
-          
-          (let*
-            (
-              (currNode (car opened))
-              (children (generatechildrenlist currnode))
-            )
+  (if(car opened)
+      (if (< (countclosedboxes (nodegetboard (car opened))) (nodegetboxes (car opened)))
+        (let*
+          (
+            (currNode (car opened))
+            (children (removenil (generatechildrenlist currnode)))
+            (solution (firstsolution children))
+          )
+          (if (null solution) 
             (if (car children)
               (bfs (append (cdr opened) children) (append closed (list currnode)))
               (list (pathtoroot currnode) (length opened) (length closed))
             )
+            (list (pathtoroot solution) (length opened) (length closed))
           )
-          (list (pathtoroot (car opened)) (length opened) (length closed))
-
         )
-    
-      #| (let* 
-        (
-          (currNode (car opened))
-          (children (generatechildrenlist currnode))
-          (childSolution (firstsolution children))
-        )
-        (if childsolution
-          (list(pathtoroot childsolution) (length opened) (length closed))
-          (bfs (append (cdr opened) children) (append closed (list currnode)))
-        )
-        ;por n em closed e children em opened
-      ) |#
-    )
+        (list (pathtoroot (car opened)) (length opened) (length closed))
+      )
   )
 )
 
-
-
-;;(dfs (list(noTestea)) 100)
+;;(dfs (list(noTeste)) 100)
 (defun dfs(opened maxDepth &optional (closed '()))
   (cond
-    ((not (car opened)) (print (car opened)))
+    ((not (car opened)) nil)
     ((> (nodegetdepth (car opened)) maxDepth)
       (dfs (cdr opened) maxDepth (append closed (list (car opened))))
     )
@@ -271,10 +233,14 @@
         (
           (chosenNode (car opened))
           (children (generateChildrenlist chosennode))
+          (solution (firstsolution children))
         )
-        (if (car children)
-          (dfs (append (nodeRemoveDuplicates children opened closed) (list (cdr opened))) maxdepth (append closed (list chosennode)))
-          (list (pathtoroot chosennode) (length opened) (length closed))
+        (if (null solution)
+          (if (car children)
+            (dfs (append children (list (cdr opened))) maxdepth (append closed (list chosennode)) )
+            (list (pathtoroot chosennode) (length opened) (length closed))
+          )
+          (list (pathtoroot solution) (length opened) (length closed))
         )
       )
     )

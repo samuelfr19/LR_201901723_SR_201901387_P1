@@ -144,43 +144,46 @@
 
 
 (defun chooseAlgorithm(board)
-  "Executa um algoritmo, dependendo da opcao escolhida"
-    (progn (chooseAlgorithmMessage)
-      (let ((opt (read)))
-        (cond ((not (numberp opt)) (progn (format t "Insira uma opcao valida!!") (chooseAlgorithm)))
-          ((or (> opt 3) (< opt 0)) (progn (format t "Insira uma opcao valida!!") (chooseAlgorithm)))
-          ((eq opt 0) (chooseProblem))         
-          (T (let* (
-            (boxes (second board))
-            (board (third board)))
-              (ecase opt
-                (1    
-                  (let* ((maxDepth (chooseDepth board))
-                    (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
-                    (getTime) 'DFS maxDepth)))
-                    (progn (writeFinalResults solution) solution)  
-                  )
+"Executa um algoritmo, dependendo da opcao escolhida"
+  (progn (chooseAlgorithmMessage)
+    (let ((opt (read)))
+      (cond ((not (numberp opt)) (progn (format t "Insira uma opcaoo valida!!") (chooseAlgorithm)))
+        ((or (> opt 3) (< opt 0)) (progn (format t "Insira uma opcao valida!!") (chooseAlgorithm)))
+        ((eq opt 0) (chooseProblem))         
+        (T (let* (
+          (boxes (second board))
+          (board (third board)))
+            (ecase opt
+              (1    
+                (let* ((maxDepth (chooseDepth board))
+                  (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
+                  (getTime) 'DFS maxDepth)))
+                  (progn (writeFinalResults solution) solution)  
                 )
-                (2  
-                  (let
-                    ((solution (list (getTime) (bfs (list (createNode board NIL boxes)))
-                    (getTime) 'BFS)))
-                    (progn (writeFinalResults solution) solution)
+              )
+              (2  
+                (let
+                  (
+                    (
+                      solution (list (getTime) (bfs (list (createNode board NIL boxes))) (getTime) 'BFS)
+                    )
                   )
+                  (progn (writeFinalResults solution) solution)
                 )
-                (3  
-                  (let* ((heuristic (chooseHeuristic board))
-                    (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
-                    (getTime) 'A* heuristic)))
-                    (progn (writeFinalResults solution) solution)  
-                  )
+              )
+              (3  
+                (let* ((heuristic (chooseHeuristic board))
+                  (solution (list (getTime) (dfs (list (createNode board NIL boxes)) maxDepth)
+                  (getTime) 'A* heuristic)))
+                  (progn (writeFinalResults solution) solution)  
                 )
               )
             )
           )
         )
       )
-   )
+    )
+  )
 )
 
 
@@ -188,16 +191,15 @@
 ;; <solution>::= (<startTime> <solutionNode> <endTime> <algorithm> <depth>)
 (defun writeFinalResultsFile (solution)
 "Escreve, no ficheiro de resultados, a solucao e medidas de desempenho de um determinado problema"
-  (let* ((startTime (first solution))
-         (solutionNode (second solution))
-         (endTime (third solution))
-         (search (fourth solution))) 
-            (with-open-file (str "../lisp/resultados.dat" :direction :output :if-exists :append :if-does-not-exist :create)
-             
-                 (writeFinalResults str solutionNode startTime endTime search (last solution)) 
-                
-            
-            )
+  (let* (
+      (startTime (first solution))
+      (solutionNode (second solution))
+      (endTime (third solution))
+      (search (fourth solution))
+    ) 
+    (with-open-file (str "../lisp/resultados.dat" :direction :output :if-exists :append :if-does-not-exist :create)
+      (writeFinalResults str solutionNode startTime endTime search (last solution)) 
+    )
   )
 )
 
